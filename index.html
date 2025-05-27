@@ -3,204 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>El Diacho de Tips</title>
+  <title>Teste Login Simples</title>
   <style>
-    body {
-      margin: 0;
+    body, html {
+      margin: 0; padding: 0; height: 100%;
       background: black;
-      font-family: Arial, sans-serif;
       color: red;
+      font-family: Arial, sans-serif;
+      display: flex; justify-content: center; align-items: center;
     }
-
-    .container, #welcome {
-      display: flex;
+    #mainScreen, #welcome {
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      width: 100vw;
       text-align: center;
     }
-
-    .box {
-      background: rgba(0, 0, 0, 0.7);
-      border: 1px solid red;
-      border-radius: 10px;
-      padding: 30px;
-      margin: 10px;
-      box-shadow: 0 0 10px red;
-      width: 300px;
-      display: none;
+    #mainScreen.active, #welcome.active {
+      display: flex;
     }
-
-    .box.active {
-      display: block;
-    }
-
-    input, select, button {
-      width: 100%;
-      padding: 10px;
+    input, button {
       margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
       border: 1px solid red;
       background: black;
       color: red;
-      border-radius: 5px;
+      width: 200px;
     }
-
     button {
+      cursor: pointer;
       background: red;
       color: black;
       font-weight: bold;
-      cursor: pointer;
     }
-
     button:hover {
       background: darkred;
-    }
-
-    #welcome {
-      display: none;
-      animation: fadeIn 1.5s forwards;
-    }
-
-    .robot {
-      position: relative;
-      width: 120px;
-      height: 150px;
-      background: red;
-      border-radius: 20px 20px 10px 10px;
-      animation: float 2s infinite ease-in-out;
-      margin-top: 20px;
-    }
-
-    .robot::before {
-      content: "";
-      position: absolute;
-      top: -35px;
-      left: 40px;
-      width: 40px;
-      height: 40px;
-      background: red;
-      border-radius: 50%;
-      border: 3px solid black;
-      animation: blink 3s infinite;
-    }
-
-    .eye {
-      position: absolute;
-      top: -25px;
-      left: 50px;
-      width: 10px;
-      height: 10px;
-      background: black;
-      border-radius: 50%;
-      z-index: 2;
-      animation: blink 3s infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    @keyframes blink {
-      0%, 90%, 100% { transform: scaleY(1); }
-      95% { transform: scaleY(0.1); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
 
-<!-- Tela de login/cadastro -->
-<div class="container" id="mainScreen">
-  <div>
-    <button onclick="showBox('login')">Entrar</button>
-    <button onclick="showBox('cadastro')">Cadastro</button>
-  </div>
-
-  <div id="login" class="box">
-    <h2>Login</h2>
-    <input type="text" id="loginUser" placeholder="Usuário (login)">
-    <input type="password" id="loginPass" placeholder="Senha">
-    <button onclick="login()">Entrar</button>
-  </div>
-
-  <div id="cadastro" class="box">
-    <h2>Cadastro</h2>
-    <input type="text" id="nome" placeholder="Nome completo">
-    <input type="tel" id="telefone" placeholder="Telefone">
-    <input type="text" id="usuario" placeholder="Usuário (login)">
-    <select id="maiorIdade">
-      <option value="">É maior de 18?</option>
-      <option value="sim">Sim</option>
-      <option value="nao">Não</option>
-    </select>
-    <input type="password" id="senha" placeholder="Senha">
-    <button onclick="cadastrar()">Cadastrar</button>
-  </div>
+<div id="mainScreen" class="active">
+  <h2>Login Simples</h2>
+  <input type="text" id="user" placeholder="Usuário" />
+  <input type="password" id="pass" placeholder="Senha" />
+  <button onclick="login()">Entrar</button>
 </div>
 
-<!-- Tela de boas-vindas com robô -->
 <div id="welcome">
-  <h1>Seja bem-vindo(a) à plataforma El Diacho de Tips!</h1>
-  <div class="robot">
-    <div class="eye"></div>
-  </div>
-  <button onclick="voltar()">Sair</button>
+  <h1>Bem-vindo(a)!</h1>
+  <button onclick="logout()">Sair</button>
 </div>
 
 <script>
-  function showBox(id) {
-    document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
-
-  function cadastrar() {
-    const nome = document.getElementById('nome').value;
-    const telefone = document.getElementById('telefone').value;
-    const maior = document.getElementById('maiorIdade').value;
-    const usuario = document.getElementById('usuario').value;
-    const senha = document.getElementById('senha').value;
-
-    if (maior !== 'sim') {
-      alert('Você precisa ser maior de 18 anos para se cadastrar.');
-      return;
-    }
-    if (!nome || !telefone || !usuario || !senha) {
-      alert('Preencha todos os campos!');
-      return;
-    }
-
-    localStorage.setItem('usuario', JSON.stringify({ nome, telefone, usuario, senha }));
-    alert('Cadastro realizado com sucesso!');
-    showBox('login');
-  }
-
   function login() {
-    const user = document.getElementById('loginUser').value;
-    const pass = document.getElementById('loginPass').value;
-    const dados = JSON.parse(localStorage.getItem('usuario'));
+    const user = document.getElementById('user').value.trim();
+    const pass = document.getElementById('pass').value.trim();
 
-    if (!dados) {
-      alert('Nenhum usuário cadastrado.');
-      return;
-    }
-    if (user.toLowerCase() === dados.usuario.toLowerCase() && pass === dados.senha) {
-      document.getElementById('mainScreen').style.display = 'none';
-      document.getElementById('welcome').style.display = 'flex';
+    // Só para teste, aceita usuário 'teste' e senha '123'
+    if (user === 'teste' && pass === '123') {
+      document.getElementById('mainScreen').classList.remove('active');
+      document.getElementById('welcome').classList.add('active');
     } else {
       alert('Usuário ou senha incorretos.');
     }
   }
 
-  function voltar() {
-    document.getElementById('welcome').style.display = 'none';
-    document.getElementById('mainScreen').style.display = 'flex';
-    showBox('login');
+  function logout() {
+    document.getElementById('welcome').classList.remove('active');
+    document.getElementById('mainScreen').classList.add('active');
+    document.getElementById('user').value = '';
+    document.getElementById('pass').value = '';
   }
 </script>
 
