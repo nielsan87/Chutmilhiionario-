@@ -1,37 +1,43 @@
-<!-- ===================== PÁGINA 1 - Cadastro ===================== -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>El Diacho de Tips - Início</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>El Diacho de Tips - Multi Páginas</title>
   <style>
     body {
-      background: #000;
-      color: white;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0; font-family: Arial, sans-serif; color: white; background: #000;
       text-align: center;
     }
-    header {
+    .page {
+      display: none;
+      padding: 2rem;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .active {
+      display: block;
+    }
+
+    /* Página 1 */
+    #page1 header {
       background: red;
       padding: 1rem;
     }
-    header h1 {
+    #page1 header h1 {
       margin: 0;
     }
-    .hero {
+    #page1 .hero {
       padding: 2rem;
     }
-    .formulario {
+    #page1 .formulario {
       background: #111;
       padding: 2rem;
       margin: 2rem auto;
       max-width: 400px;
       border-radius: 10px;
     }
-    input, button {
+    #page1 input, #page1 button, #page1 select {
       width: 100%;
       padding: 0.75rem;
       margin: 0.5rem 0;
@@ -39,73 +45,39 @@
       border: none;
       font-size: 1rem;
     }
-    button {
+    #page1 button {
       background: gold;
       color: black;
       font-weight: bold;
       cursor: pointer;
     }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>El Diacho de Tips</h1>
-  </header>
-  <div class="hero">
-    <p>Bem-vindo à melhor plataforma de apostas esportivas!</p>
-  </div>
-  <div class="formulario">
-    <input type="text" placeholder="Data de Nascimento" />
-    <input type="text" placeholder="Telefone" />
-    <input type="text" placeholder="Login" />
-    <input type="password" placeholder="Senha" />
-    <select>
-      <option selected disabled>Esporte</option>
-      <option>Futebol</option>
-      <option>Basquete</option>
-    </select>
-    <button onclick="window.location.href='pagina2.html'">Cadastrar</button>
-  </div>
-</body>
-</html>
 
-<!-- ===================== PÁGINA 2 - Área de Análise ===================== -->
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página 2</title>
-  <style>
-    body {
+    /* Página 2 */
+    #page2 {
       background: linear-gradient(to bottom, #000000, #1e1e1e);
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 2rem;
     }
-    h2 {
+    #page2 h2 {
       color: #FFD700;
       margin-bottom: 1rem;
     }
-    .mensagem {
+    #page2 .mensagem {
       font-size: 1.2rem;
       margin-bottom: 2rem;
     }
-    .acerto {
+    #page2 .acerto {
       font-size: 2rem;
       font-weight: bold;
       color: #00FF00;
       margin-bottom: 2rem;
     }
-    .botoes {
+    #page2 .botoes {
       display: flex;
       flex-direction: column;
       gap: 1rem;
       max-width: 300px;
       margin: 0 auto 2rem;
     }
-    .botoes button {
+    #page2 .botoes button {
       padding: 1rem;
       border: none;
       border-radius: 10px;
@@ -113,10 +85,10 @@
       font-weight: bold;
       cursor: pointer;
     }
-    .padrao { background: blue; color: white; }
-    .estrategia { background: red; color: white; }
-    .canto { background: green; color: white; }
-    .next {
+    #page2 .padrao { background: blue; color: white; }
+    #page2 .estrategia { background: red; color: white; }
+    #page2 .canto { background: green; color: white; }
+    #page2 .next {
       background: orange;
       color: black;
       font-size: 1.1rem;
@@ -126,40 +98,15 @@
       cursor: pointer;
       margin-top: 1rem;
     }
-  </style>
-</head>
-<body>
-  <h2>Bem-vindo à Área de Análise</h2>
-  <div class="mensagem">Você agora faz parte da elite do El Diacho de Tips!</div>
-  <div class="acerto">95% DE ACERTO</div>
-  <div class="botoes">
-    <button class="padrao">Analisar Padrão</button>
-    <button class="estrategia">Analisar Estratégia</button>
-    <button class="canto">Análise de Canto</button>
-  </div>
-  <button class="next" onclick="window.location.href='pagina3.html'">Próxima Página</button>
-</body>
-</html>
 
-<!-- ===================== PÁGINA 3 - IA e Estratégias ===================== -->
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página 3</title>
-  <style>
-    body {
-      margin: 0;
+    /* Página 3 */
+    #page3 {
       background: black;
-      color: white;
-      font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem;
     }
-    .campo {
+    #page3 .campo {
       width: 300px;
       height: 200px;
       background: linear-gradient(green, darkgreen);
@@ -168,7 +115,7 @@
       border: 4px solid white;
       border-radius: 20px;
     }
-    .bola {
+    #page3 .bola {
       width: 40px;
       height: 40px;
       background: white;
@@ -182,13 +129,13 @@
       0%, 100% { bottom: 10px; }
       50% { bottom: 100px; }
     }
-    .mensagem {
+    #page3 .mensagem {
       font-size: 1.2rem;
       text-align: center;
       max-width: 500px;
       margin-bottom: 2rem;
     }
-    .robo {
+    #page3 .robo {
       font-size: 4rem;
       animation: piscar 1s infinite;
     }
@@ -196,7 +143,7 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0.2; }
     }
-    .botao {
+    #page3 .botao {
       padding: 1rem 2rem;
       background: #FFD700;
       color: black;
@@ -206,41 +153,17 @@
       cursor: pointer;
       font-size: 1.1rem;
     }
-  </style>
-</head>
-<body>
-  <div class="campo"><div class="bola"></div></div>
-  <div class="mensagem">
-    Eu sou uma inteligência artificial trabalhando para aumentar seu lucro!<br>
-    Fui criada por <strong>Niel Lima</strong> e em apenas 4 dias já acertei 8 padrões!<br>
-    Somos 3 IAs analisando estratégias e padrões...
-  </div>
-  <div class="robo">🤖</div>
-  <p style="margin: 1rem 0; font-size: 1.3rem;">Ficou curioso né?</p>
-  <button class="botao" onclick="window.location.href='pagina4.html'">Clique aqui</button>
-</body>
-</html>
 
-<!-- ===================== PÁGINA 4 - Telegram e Palpites ===================== -->
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página 4</title>
-  <style>
-    body {
+    /* Página 4 */
+    #page4 {
       background: #111;
-      color: white;
-      font-family: Arial, sans-serif;
       text-align: center;
-      padding: 2rem;
     }
-    h1 {
+    #page4 h1 {
       font-size: 2rem;
       margin-bottom: 2rem;
     }
-    .botao {
+    #page4 .botao {
       padding: 1rem 2rem;
       margin: 1rem;
       border: none;
@@ -252,48 +175,22 @@
       align-items: center;
       gap: 0.5rem;
     }
-    .free { background-color: #32CD32; color: black; }
-    .vip { background-color: gold; color: black; }
-    .palpites { background-color: #1E90FF; color: white; display: block; margin: 2rem auto; }
-    .equipe { background-color: #FF4500; color: white; display: block; margin: 2rem auto; }
-    .jogos {
+    #page4 .free { background-color: #32CD32; color: black; }
+    #page4 .vip { background-color: gold; color: black; }
+    #page4 .palpites { background-color: #1E90FF; color: white; display: block; margin: 2rem auto; }
+    #page4 .equipe { background-color: #FF4500; color: white; display: block; margin: 2rem auto; }
+    #page4 .jogos {
       margin: 1rem auto;
       background: #222;
       padding: 1rem;
       border-radius: 10px;
       max-width: 500px;
     }
-  </style>
-</head>
-<body>
-  <h1>Conecte-se com nossas comunidades</h1>
-  <button class="botao free">☘️ Telegram Free</button>
-  <button class="botao vip">👑 Telegram VIP</button>
-  <button class="botao palpites">Palpites de Hoje</button>
-  <div class="jogos">
-    <p><strong>Jogos de hoje:</strong></p>
-    <p>15:00 - Flamengo x Palmeiras</p>
-    <p>17:30 - Real Madrid x Barcelona</p>
-    <p>20:00 - Grêmio x Internacional</p>
-  </div>
-  <button class="botao equipe">Vem fazer parte da nossa equipe</button>
-</body>
-</html>
 
-<!-- ===================== PÁGINA 5 - Dourado Chute Milionário ===================== -->
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dourado Chute Milionário</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
+    /* Página 5 */
+    #page5 {
       background-color: black;
       color: gold;
-      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -302,7 +199,7 @@
       flex-direction: column;
       animation: fadeIn 2s ease-in;
     }
-    h1 {
+    #page5 h1 {
       font-size: 3rem;
       text-shadow: 0 0 10px gold, 0 0 20px goldenrod;
     }
@@ -313,6 +210,100 @@
   </style>
 </head>
 <body>
-  <h1>Dourado Chute Milionário</h1>
+
+  <!-- PÁGINA 1 -->
+  <div id="page1" class="page active">
+    <header>
+      <h1>El Diacho de Tips</h1>
+    </header>
+    <div class="hero">
+      <p>Bem-vindo à melhor plataforma de apostas esportivas!</p>
+    </div>
+    <div class="formulario">
+      <input type="text" placeholder="Data de Nascimento" />
+      <input type="text" placeholder="Telefone" />
+      <input type="text" placeholder="Login" />
+      <input type="password" placeholder="Senha" />
+      <select>
+        <option selected disabled>Esporte</option>
+        <option>Futebol</option>
+        <option>Basquete</option>
+      </select>
+      <button id="toPage2">Cadastrar</button>
+    </div>
+  </div>
+
+  <!-- PÁGINA 2 -->
+  <div id="page2" class="page">
+    <h2>Bem-vindo à Área de Análise</h2>
+    <div class="mensagem">Você agora faz parte da elite do El Diacho de Tips!</div>
+    <div class="acerto">95% DE ACERTO</div>
+    <div class="botoes">
+      <button class="padrao">Analisar Padrão</button>
+      <button class="estrategia">Analisar Estratégia</button>
+      <button class="canto">Análise de Canto</button>
+    </div>
+    <button class="next" id="toPage3">Próxima Página</button>
+  </div>
+
+  <!-- PÁGINA 3 -->
+  <div id="page3" class="page">
+    <div class="campo"><div class="bola"></div></div>
+    <div class="mensagem">
+      Eu sou uma inteligência artificial trabalhando para aumentar seu lucro!<br>
+      Fui criada por <strong>Niel Lima</strong> e em apenas 4 dias já acertei 8 padrões!<br>
+      Somos 3 IAs analisando estratégias e padrões...
+    </div>
+    <div class="robo">🤖</div>
+    <p style="margin: 1rem 0; font-size: 1.3rem;">Ficou curioso né?</p>
+    <button class="botao" id="toPage4">Clique aqui</button>
+  </div>
+
+  <!-- PÁGINA 4 -->
+  <div id="page4" class="page">
+    <h1>Conecte-se com nossas comunidades</h1>
+    <button class="botao free">☘️ Telegram Free</button>
+    <button class="botao vip">👑 Telegram VIP</button>
+    <button class="botao palpites">Palpites de Hoje</button>
+    <div class="jogos">
+      <p><strong>Jogos de hoje:</strong></p>
+      <p>15:00 - Flamengo x Palmeiras</p>
+      <p>17:30 - Real Madrid x Barcelona</p>
+      <p>20:00 - Grêmio x Internacional</p>
+    </div>
+    <button class="botao equipe">Vem fazer parte da nossa equipe</button>
+    <br/>
+    <button class="next" id="toPage5" style="margin-top: 2rem; background: gold; color: black;">Próxima Página</button>
+  </div>
+
+  <!-- PÁGINA 5 -->
+  <div id="page5" class="page">
+    <h1>Dourado Chute Milionário</h1>
+  </div>
+
+  <script>
+    // Função para mostrar só a página desejada
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+      window.scrollTo(0,0); // subir a página para o topo ao trocar
+    }
+
+    // Eventos dos botões para navegar
+    document.getElementById('toPage2').addEventListener('click', () => {
+      showPage('page2');
+    });
+    document.getElementById('toPage3').addEventListener('click', () => {
+      showPage('page3');
+    });
+    document.getElementById('toPage4').addEventListener('click', () => {
+      showPage('page4');
+    });
+    document.getElementById('toPage5').addEventListener('click', () => {
+      showPage('page5');
+    });
+  </script>
 </body>
 </html>
