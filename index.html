@@ -1,77 +1,206 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>El Diacho de Tips</title>
   <style>
     body {
       margin: 0;
       background: black;
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       color: red;
     }
 
-    .container {
+    .container, #welcome {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: url('data:image/jpeg;base64,[AQUI VAI O BASE64 DA IMAGEM]') no-repeat center center;
-      background-size: cover;
+      text-align: center;
     }
 
-    .login-box {
+    .box {
       background: rgba(0, 0, 0, 0.7);
       border: 1px solid red;
       border-radius: 10px;
-      padding: 40px;
-      text-align: center;
-      box-shadow: 0 0 20px red;
+      padding: 30px;
+      margin: 10px;
+      box-shadow: 0 0 10px red;
+      width: 300px;
+      display: none;
     }
 
-    .login-box h1 {
-      margin-bottom: 30px;
+    .box.active {
+      display: block;
     }
 
-    input[type="text"],
-    input[type="password"] {
+    input, select, button {
       width: 100%;
       padding: 10px;
       margin: 10px 0;
-      background: black;
       border: 1px solid red;
+      background: black;
       color: red;
       border-radius: 5px;
     }
 
-    input[type="submit"] {
-      width: 100%;
-      padding: 10px;
+    button {
       background: red;
       color: black;
       font-weight: bold;
-      border: none;
-      border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
     }
 
-    input[type="submit"]:hover {
+    button:hover {
       background: darkred;
+    }
+
+    #welcome {
+      display: none;
+      animation: fadeIn 1.5s forwards;
+    }
+
+    .robot {
+      position: relative;
+      width: 120px;
+      height: 150px;
+      background: red;
+      border-radius: 20px 20px 10px 10px;
+      animation: float 2s infinite ease-in-out;
+      margin-top: 20px;
+    }
+
+    .robot::before {
+      content: "";
+      position: absolute;
+      top: -35px;
+      left: 40px;
+      width: 40px;
+      height: 40px;
+      background: red;
+      border-radius: 50%;
+      border: 3px solid black;
+      animation: blink 3s infinite;
+    }
+
+    .eye {
+      position: absolute;
+      top: -25px;
+      left: 50px;
+      width: 10px;
+      height: 10px;
+      background: black;
+      border-radius: 50%;
+      z-index: 2;
+      animation: blink 3s infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="login-box">
-      <h1>El Diacho de Tips</h1>
-      <form action="#" method="post">
-        <input type="text" name="username" placeholder="Nome de Usuário" required>
-        <input type="password" name="password" placeholder="Senha" required>
-        <input type="submit" value="Entrar">
-      </form>
-    </div>
+
+<!-- Tela de login/cadastro -->
+<div class="container" id="mainScreen">
+  <div>
+    <button onclick="showBox('login')">Entrar</button>
+    <button onclick="showBox('cadastro')">Cadastro</button>
   </div>
+
+  <div id="login" class="box">
+    <h2>Login</h2>
+    <input type="text" id="loginUser" placeholder="Usuário (nome)">
+    <input type="password" id="loginPass" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
+  </div>
+
+  <div id="cadastro" class="box">
+    <h2>Cadastro</h2>
+    <input type="text" id="nome" placeholder="Nome completo">
+    <input type="tel" id="telefone" placeholder="Telefone">
+    <select id="maiorIdade">
+      <option value="">É maior de 18?</option>
+      <option value="sim">Sim</option>
+      <option value="nao">Não</option>
+    </select>
+    <input type="password" id="senha" placeholder="Senha">
+    <button onclick="cadastrar()">Cadastrar</button>
+  </div>
+</div>
+
+<!-- Tela de boas-vindas com robô -->
+<div id="welcome">
+  <h1>Seja bem-vindo(a) à plataforma El Diacho de Tips!</h1>
+  <div class="robot">
+    <div class="eye"></div>
+  </div>
+  <button onclick="voltar()">Sair</button>
+</div>
+
+<script>
+  function showBox(id) {
+    document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function cadastrar() {
+    const nome = document.getElementById('nome').value;
+    const telefone = document.getElementById('telefone').value;
+    const maior = document.getElementById('maiorIdade').value;
+    const senha = document.getElementById('senha').value;
+
+    if (maior !== 'sim') {
+      alert('Você precisa ser maior de 18 anos para se cadastrar.');
+      return;
+    }
+    if (!nome || !telefone || !senha) {
+      alert('Preencha todos os campos!');
+      return;
+    }
+
+    localStorage.setItem('usuario', JSON.stringify({ nome, telefone, senha }));
+    alert('Cadastro realizado com sucesso!');
+    showBox('login');
+  }
+
+  function login() {
+    const user = document.getElementById('loginUser').value;
+    const pass = document.getElementById('loginPass').value;
+    const dados = JSON.parse(localStorage.getItem('usuario'));
+
+    if (!dados) {
+      alert('Nenhum usuário cadastrado.');
+      return;
+    }
+    if (user.toLowerCase() === dados.nome.toLowerCase() && pass === dados.senha) {
+      document.getElementById('mainScreen').style.display = 'none';
+      document.getElementById('welcome').style.display = 'flex';
+    } else {
+      alert('Usuário ou senha incorretos.');
+    }
+  }
+
+  function voltar() {
+    document.getElementById('welcome').style.display = 'none';
+    document.getElementById('mainScreen').style.display = 'flex';
+    showBox('login');
+  }
+</script>
+
 </body>
 </html>
