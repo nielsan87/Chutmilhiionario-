@@ -1,314 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>El Diacho de Tips - App Completo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Diacho de Tips</title>
   <style>
-    /* Reset e básico */
-    body, html {
-      margin: 0; padding: 0;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: white;
+    body {
+      margin: 0;
+      background: black;
+      font-family: 'Arial', sans-serif;
+      color: red;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      background: #d32f2f;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.8rem;
-      font-weight: bold;
-      user-select: none;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      background: #222;
-      user-select: none;
-    }
-    nav button {
-      background: none;
-      border: none;
-      color: white;
-      padding: 1rem 1.5rem;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background 0.3s;
-    }
-    nav button:hover,
-    nav button.active {
-      background: #d32f2f;
-      font-weight: bold;
+      background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAx
+      ... (base64 continua aqui - substitua com a versão completa do base64 que você recebeu) ...
+      ') no-repeat center center;
+      background-size: cover;
     }
 
-    main {
-      flex-grow: 1;
-      overflow: hidden;
-      position: relative;
-    }
-    section {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      padding: 2rem;
-      overflow-y: auto;
-      background: #111;
-      display: none;
-      box-sizing: border-box;
-    }
-    section.active {
-      display: block;
-    }
-
-    /* Formulário comum */
-    .formulario {
-      background: #222;
-      max-width: 400px;
-      margin: 2rem auto;
-      padding: 2rem;
+    .login-box {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid red;
       border-radius: 10px;
-      box-sizing: border-box;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 0 20px red;
     }
-    input, select, button {
+
+    .login-box h1 {
+      margin-bottom: 30px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
-      padding: 0.75rem;
-      margin: 0.5rem 0;
+      padding: 10px;
+      margin: 10px 0;
+      background: black;
+      border: 1px solid red;
+      color: red;
       border-radius: 5px;
-      border: none;
-      font-size: 1rem;
-      box-sizing: border-box;
     }
-    input, select {
-      background: #333;
-      color: white;
-    }
-    button {
-      background: gold;
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background: red;
       color: black;
       font-weight: bold;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s;
     }
-    button:hover {
-      background: darkgoldenrod;
-    }
 
-    /* Página 2 - botões coloridos */
-    .botoes {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      max-width: 300px;
-      margin: 2rem auto;
-    }
-    .botoes button {
-      padding: 1rem;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 1rem;
-      border: none;
-      cursor: pointer;
-      color: white;
-    }
-    .padrao { background: blue; }
-    .estrategia { background: red; }
-    .canto { background: green; }
-    .next {
-      background: orange;
-      color: black;
-      margin-top: 1rem;
-      max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Página 3 - campo verde */
-    .campo {
-      width: 300px;
-      height: 200px;
-      background: linear-gradient(green, darkgreen);
-      position: relative;
-      margin: 2rem auto;
-      border: 4px solid white;
-      border-radius: 20px;
-    }
-    .bola {
-      width: 40px;
-      height: 40px;
-      background: white;
-      border-radius: 50%;
-      position: absolute;
-      bottom: 10px;
-      left: 130px;
-      animation: quicar 1s infinite ease-in-out;
-    }
-    @keyframes quicar {
-      0%, 100% { bottom: 10px; }
-      50% { bottom: 100px; }
-    }
-    .mensagem-robo {
-      max-width: 500px;
-      margin: 2rem auto;
-      text-align: center;
-      font-size: 1.2rem;
-      line-height: 1.4;
-    }
-    .robo {
-      font-size: 4rem;
-      animation: piscar 1s infinite;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    @keyframes piscar {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.2; }
-    }
-    .botao {
-      display: block;
-      margin: 0 auto;
-      padding: 1rem 2rem;
-      background: #FFD700;
-      color: black;
-      font-weight: bold;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 1.1rem;
-    }
-
-    /* Página 4 */
-    .botao-p4 {
-      padding: 1rem 2rem;
-      margin: 1rem;
-      border-radius: 10px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      font-weight: bold;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      border: none;
-    }
-    .free { background-color: #32CD32; color: black; }
-    .vip { background-color: gold; color: black; }
-    .palpites { background-color: #1E90FF; color: white; display: block; margin: 2rem auto; max-width: 300px; }
-    .equipe { background-color: #FF4500; color: white; display: block; margin: 2rem auto; max-width: 300px; }
-    .jogos {
-      margin: 1rem auto;
-      background: #222;
-      padding: 1rem;
-      border-radius: 10px;
-      max-width: 500px;
-      text-align: left;
-    }
-
-    /* Página 5 */
-    .pagina5 {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      text-align: center;
-      flex-direction: column;
-      color: gold;
-      animation: fadeIn 2s ease-in;
-      font-size: 3rem;
-      text-shadow: 0 0 10px gold, 0 0 20px goldenrod;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    input[type="submit"]:hover {
+      background: darkred;
     }
   </style>
 </head>
 <body>
-  <header>El Diacho de Tips</header>
-  <nav>
-    <button data-target="pagina1" class="active">Cadastro</button>
-    <button data-target="pagina2">Análise</button>
-    <button data-target="pagina3">IA e Estratégias</button>
-    <button data-target="pagina4">Telegram & Palpites</button>
-    <button data-target="pagina5">Dourado Chute Milionário</button>
-  </nav>
-  <main>
-    <!-- Página 1 - Cadastro -->
-    <section id="pagina1" class="active">
-      <p>Bem-vindo à melhor plataforma de apostas esportivas!</p>
-      <div class="formulario">
-        <input type="text" placeholder="Data de Nascimento" />
-        <input type="text" placeholder="Telefone" />
-        <input type="text" placeholder="Login" />
-        <input type="password" placeholder="Senha" />
-        <select>
-          <option selected disabled>Esporte</option>
-          <option>Futebol</option>
-          <option>Basquete</option>
-        </select>
-        <button onclick="alert('Cadastro simulado!')">Cadastrar</button>
-      </div>
-    </section>
-
-    <!-- Página 2 - Área de Análise -->
-    <section id="pagina2">
-      <h2 style="color:#FFD700;">Bem-vindo à Área de Análise</h2>
-      <div style="font-size:1.2rem; margin-bottom:2rem;">Você agora faz parte da elite do El Diacho de Tips!</div>
-      <div style="font-size:2rem; font-weight:bold; color:#00FF00; margin-bottom:2rem;">95% DE ACERTO</div>
-      <div class="botoes">
-        <button class="padrao">Analisar Padrão</button>
-        <button class="estrategia">Analisar Estratégia</button>
-        <button class="canto">Análise de Canto</button>
-      </div>
-      <button class="next" onclick="showSection('pagina3')">Próxima Página</button>
-    </section>
-
-    <!-- Página 3 - IA e Estratégias -->
-    <section id="pagina3">
-      <div class="campo"><div class="bola"></div></div>
-      <div class="mensagem-robo">
-        Eu sou uma inteligência artificial trabalhando para aumentar seu lucro!<br/>
-        Fui criada por <strong>Niel Lima</strong> e em apenas 4 dias já acertei 8 padrões!<br/>
-        Somos 3 IAs analisando estratégias e padrões...
-      </div>
-      <div class="robo">🤖</div>
-      <p style="font-size:1.3rem; margin:1rem 0;">Ficou curioso né?</p>
-      <button class="botao" onclick="showSection('pagina4')">Clique aqui</button>
-    </section>
-
-    <!-- Página 4 - Telegram e Palpites -->
-    <section id="pagina4">
-      <h1>Conecte-se com nossas comunidades</h1>
-      <button class="botao-p4 free" onclick="alert('Entrando no Telegram Free')">☘️ Telegram Free</button>
-      <button class="botao-p4 vip" onclick="alert('Entrando no Telegram VIP')">👑 Telegram VIP</button>
-      <button class="botao-p4 palpites" onclick="alert('Mostrando Palpites de Hoje')">Palpites de Hoje</button>
-      <div class="jogos">
-        <p><strong>Jogos de hoje:</strong></p>
-        <p>15:00 - Flamengo x Palmeiras</p>
-        <p>17:30 - Real Madrid x Barcelona</p>
-        <p>20:00 - Grêmio x Internacional</p>
-      </div>
-      <button class="botao-p4 equipe" onclick="alert('Seja parte da equipe!')">Vem fazer parte da nossa equipe</button>
-    </section>
-
-    <!-- Página 5 - Dourado Chute Milionário -->
-    <section id="pagina5">
-      <div class="pagina5">
-        Dourado Chute Milionário
-      </div>
-    </section>
-  </main>
-
-  <script>
-    const navButtons = document.querySelectorAll('nav button');
-    const sections = document.querySelectorAll('main section');
-
-    function showSection(id) {
-      sections.forEach(s => s.classList.remove('active'));
-      navButtons.forEach(b => b.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.querySelector(`nav button[data-target="${id}"]`).classList.add('active');
-    }
-
-    navButtons.forEach(btn => {
-      btn.addEvent
+  <div class="container">
+    <div class="login-box">
+      <h1>El Diacho de Tips</h1>
+      <form action="#" method="post">
+        <input type="text" name="username" placeholder="Nome de Usuário" required>
+        <input type="password" name="password" placeholder="Senha" required>
+        <input type="submit" value="Entrar">
+      </form>
+    </div>
+  </div>
+</body>
+</html>
