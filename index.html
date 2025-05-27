@@ -124,7 +124,7 @@
 
   <div id="login" class="box">
     <h2>Login</h2>
-    <input type="text" id="loginUser" placeholder="Usuário (nome)">
+    <input type="text" id="loginUser" placeholder="Usuário (login)">
     <input type="password" id="loginPass" placeholder="Senha">
     <button onclick="login()">Entrar</button>
   </div>
@@ -133,6 +133,7 @@
     <h2>Cadastro</h2>
     <input type="text" id="nome" placeholder="Nome completo">
     <input type="tel" id="telefone" placeholder="Telefone">
+    <input type="text" id="usuario" placeholder="Usuário (login)">
     <select id="maiorIdade">
       <option value="">É maior de 18?</option>
       <option value="sim">Sim</option>
@@ -162,18 +163,19 @@
     const nome = document.getElementById('nome').value;
     const telefone = document.getElementById('telefone').value;
     const maior = document.getElementById('maiorIdade').value;
+    const usuario = document.getElementById('usuario').value;
     const senha = document.getElementById('senha').value;
 
     if (maior !== 'sim') {
       alert('Você precisa ser maior de 18 anos para se cadastrar.');
       return;
     }
-    if (!nome || !telefone || !senha) {
+    if (!nome || !telefone || !usuario || !senha) {
       alert('Preencha todos os campos!');
       return;
     }
 
-    localStorage.setItem('usuario', JSON.stringify({ nome, telefone, senha }));
+    localStorage.setItem('usuario', JSON.stringify({ nome, telefone, usuario, senha }));
     alert('Cadastro realizado com sucesso!');
     showBox('login');
   }
@@ -187,7 +189,7 @@
       alert('Nenhum usuário cadastrado.');
       return;
     }
-    if (user.toLowerCase() === dados.nome.toLowerCase() && pass === dados.senha) {
+    if (user.toLowerCase() === dados.usuario.toLowerCase() && pass === dados.senha) {
       document.getElementById('mainScreen').style.display = 'none';
       document.getElementById('welcome').style.display = 'flex';
     } else {
