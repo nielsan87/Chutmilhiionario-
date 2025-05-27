@@ -1,142 +1,318 @@
+<!-- ===================== PÁGINA 1 - Cadastro ===================== -->
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Conexão IA - Apostas Esportivas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>El Diacho de Tips - Início</title>
   <style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
+      background: #000;
       color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
     }
     header {
-      background: #1a1a1a;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
+      background: red;
+      padding: 1rem;
     }
     header h1 {
       margin: 0;
-      font-size: 1.5em;
-      color: #00ffff;
-    }
-    nav a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-      font-size: 0.9em;
-    }
-    nav a:hover {
-      color: #00ffff;
     }
     .hero {
-      text-align: center;
-      padding: 80px 20px;
-      background-image: url('data:image/jpeg;base64,**COLE_AQUI_O_BASE64_DA_IMAGEM**');
-      background-size: cover;
-      background-position: top center;
-      min-height: 500px;
-      color: white;
+      padding: 2rem;
     }
-    .hero h1 {
-      font-size: 2.2em;
-      margin-bottom: 10px;
-    }
-    .section {
-      padding: 40px 20px;
-      text-align: center;
-    }
-    .form-box {
+    .formulario {
+      background: #111;
+      padding: 2rem;
+      margin: 2rem auto;
       max-width: 400px;
-      margin: 20px auto;
-      background: #222;
-      padding: 20px;
-      border-radius: 8px;
+      border-radius: 10px;
     }
-    input {
+    input, button {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
       border-radius: 5px;
+      border: none;
+      font-size: 1rem;
     }
     button {
-      background: #00ffff;
+      background: gold;
       color: black;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
+      font-weight: bold;
       cursor: pointer;
-    }
-    button:hover {
-      background: #00dddd;
-    }
-    .user-list {
-      background: #222;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    footer {
-      background: #1a1a1a;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Conexão IA</h1>
-    <nav>
-      <a href="#">Início</a>
-      <a href="#">Esportes</a>
-      <a href="#">Ao Vivo</a>
-      <a href="#">Cassino</a>
-      <a href="#">Cadastrar-se</a>
-    </nav>
+    <h1>El Diacho de Tips</h1>
   </header>
-
   <div class="hero">
-    <h1>APOSTE COM INTELIGÊNCIA</h1>
-    <p>Encontre as melhores oportunidades com IA</p>
+    <p>Bem-vindo à melhor plataforma de apostas esportivas!</p>
   </div>
-
-  <div class="section">
-    <h2>Entrar</h2>
-    <div class="form-box">
-      <input type="text" placeholder="Usuário" />
-      <input type="password" placeholder="Senha" />
-      <button>Entrar</button>
-    </div>
+  <div class="formulario">
+    <input type="text" placeholder="Data de Nascimento" />
+    <input type="text" placeholder="Telefone" />
+    <input type="text" placeholder="Login" />
+    <input type="password" placeholder="Senha" />
+    <select>
+      <option selected disabled>Esporte</option>
+      <option>Futebol</option>
+      <option>Basquete</option>
+    </select>
+    <button onclick="window.location.href='pagina2.html'">Cadastrar</button>
   </div>
+</body>
+</html>
 
-  <div class="section">
-    <h2>Criar Conta</h2>
-    <div class="form-box">
-      <input type="text" placeholder="Nome" />
-      <input type="email" placeholder="E-mail" />
-      <input type="password" placeholder="Senha" />
-      <button>Cadastrar</button>
-    </div>
+<!-- ===================== PÁGINA 2 - Área de Análise ===================== -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página 2</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #000000, #1e1e1e);
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    h2 {
+      color: #FFD700;
+      margin-bottom: 1rem;
+    }
+    .mensagem {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .acerto {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #00FF00;
+      margin-bottom: 2rem;
+    }
+    .botoes {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 300px;
+      margin: 0 auto 2rem;
+    }
+    .botoes button {
+      padding: 1rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .padrao { background: blue; color: white; }
+    .estrategia { background: red; color: white; }
+    .canto { background: green; color: white; }
+    .next {
+      background: orange;
+      color: black;
+      font-size: 1.1rem;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>Bem-vindo à Área de Análise</h2>
+  <div class="mensagem">Você agora faz parte da elite do El Diacho de Tips!</div>
+  <div class="acerto">95% DE ACERTO</div>
+  <div class="botoes">
+    <button class="padrao">Analisar Padrão</button>
+    <button class="estrategia">Analisar Estratégia</button>
+    <button class="canto">Análise de Canto</button>
   </div>
+  <button class="next" onclick="window.location.href='pagina3.html'">Próxima Página</button>
+</body>
+</html>
 
-  <div class="section">
-    <h2>Usuários Cadastrados</h2>
-    <div class="user-list">
-      <p>Usuário1 - usuario1@email.com</p>
-      <p>Usuário2 - usuario2@email.com</p>
-      <p>Usuário3 - usuario3@email.com</p>
-    </div>
+<!-- ===================== PÁGINA 3 - IA e Estratégias ===================== -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página 3</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+    .campo {
+      width: 300px;
+      height: 200px;
+      background: linear-gradient(green, darkgreen);
+      position: relative;
+      margin-bottom: 2rem;
+      border: 4px solid white;
+      border-radius: 20px;
+    }
+    .bola {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 10px;
+      left: 130px;
+      animation: quicar 1s infinite ease-in-out;
+    }
+    @keyframes quicar {
+      0%, 100% { bottom: 10px; }
+      50% { bottom: 100px; }
+    }
+    .mensagem {
+      font-size: 1.2rem;
+      text-align: center;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+    .robo {
+      font-size: 4rem;
+      animation: piscar 1s infinite;
+    }
+    @keyframes piscar {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+    .botao {
+      padding: 1rem 2rem;
+      background: #FFD700;
+      color: black;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="campo"><div class="bola"></div></div>
+  <div class="mensagem">
+    Eu sou uma inteligência artificial trabalhando para aumentar seu lucro!<br>
+    Fui criada por <strong>Niel Lima</strong> e em apenas 4 dias já acertei 8 padrões!<br>
+    Somos 3 IAs analisando estratégias e padrões...
   </div>
+  <div class="robo">🤖</div>
+  <p style="margin: 1rem 0; font-size: 1.3rem;">Ficou curioso né?</p>
+  <button class="botao" onclick="window.location.href='pagina4.html'">Clique aqui</button>
+</body>
+</html>
 
-  <footer>
-    &copy; 2025 Conexão IA. Todos os direitos reservados.
-  </footer>
+<!-- ===================== PÁGINA 4 - Telegram e Palpites ===================== -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página 4</title>
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    .botao {
+      padding: 1rem 2rem;
+      margin: 1rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .free { background-color: #32CD32; color: black; }
+    .vip { background-color: gold; color: black; }
+    .palpites { background-color: #1E90FF; color: white; display: block; margin: 2rem auto; }
+    .equipe { background-color: #FF4500; color: white; display: block; margin: 2rem auto; }
+    .jogos {
+      margin: 1rem auto;
+      background: #222;
+      padding: 1rem;
+      border-radius: 10px;
+      max-width: 500px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Conecte-se com nossas comunidades</h1>
+  <button class="botao free">☘️ Telegram Free</button>
+  <button class="botao vip">👑 Telegram VIP</button>
+  <button class="botao palpites">Palpites de Hoje</button>
+  <div class="jogos">
+    <p><strong>Jogos de hoje:</strong></p>
+    <p>15:00 - Flamengo x Palmeiras</p>
+    <p>17:30 - Real Madrid x Barcelona</p>
+    <p>20:00 - Grêmio x Internacional</p>
+  </div>
+  <button class="botao equipe">Vem fazer parte da nossa equipe</button>
+</body>
+</html>
+
+<!-- ===================== PÁGINA 5 - Dourado Chute Milionário ===================== -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dourado Chute Milionário</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      color: gold;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      flex-direction: column;
+      animation: fadeIn 2s ease-in;
+    }
+    h1 {
+      font-size: 3rem;
+      text-shadow: 0 0 10px gold, 0 0 20px goldenrod;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Dourado Chute Milionário</h1>
 </body>
 </html>
