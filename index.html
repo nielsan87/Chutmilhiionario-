@@ -44,6 +44,7 @@
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 0 20px #00ffff33;
+      position: relative;
     }
     .container h2 {
       color: #00ffff;
@@ -80,6 +81,22 @@
       width: 100%;
       margin: 10px 0;
     }
+    /* Correção das bolinhas (radios) */
+    input[type="radio"] {
+      width: auto;
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+    label.radio-label {
+      display: inline-block;
+      margin-right: 15px;
+      cursor: pointer;
+      color: #fff;
+      user-select: none;
+      vertical-align: middle;
+    }
     button {
       background-color: #00ffff;
       color: #000;
@@ -88,6 +105,7 @@
       padding: 10px;
       cursor: pointer;
       border-radius: 6px;
+      transition: background-color 0.3s;
     }
     button:hover {
       background-color: #00cccc;
@@ -101,6 +119,22 @@
     }
     .success {
       color: #44ff44;
+    }
+
+    /* Animação do robô */
+    .robot-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 80px;
+      height: 80px;
+      animation: robot-bounce 2s infinite;
+      user-select: none;
+    }
+
+    @keyframes robot-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
     }
   </style>
 </head>
@@ -124,10 +158,19 @@
       <label for="data">Data de nascimento</label>
       <input type="date" id="data" required />
       <label>Você é maior de 18 anos?</label>
-      <input type="radio" name="maior18" value="sim" required /> Sim
-      <input type="radio" name="maior18" value="nao" /> Não
+      <label class="radio-label">
+        <input type="radio" name="maior18" value="sim" required /> Sim
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="maior18" value="nao" /> Não
+      </label>
       <button type="submit">Cadastrar</button>
       <div class="message" id="msg-cadastro"></div>
+
+      <!-- Robô animado na tela de cadastro -->
+      <div class="robot-container" title="Robô animado 🤖">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712312.png" alt="Robô animado" style="width:100%; height:100%;" />
+      </div>
     </form>
   </div>
 
@@ -155,6 +198,11 @@
     <div id="jogos-ao-vivo">
       <h3>Jogos ao vivo</h3>
       <div id="lista-jogos">Carregando jogos ao vivo...</div>
+    </div>
+
+    <!-- Robô animado na segunda página -->
+    <div class="robot-container" title="Robô animado 🤖" style="top: 10px; left: 10px; right: auto;">
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712312.png" alt="Robô animado" style="width:100%; height:100%;" />
     </div>
   </div>
 
@@ -263,85 +311,4 @@
         msgInfo.innerHTML = `
           <p>Olá, tudo bem? Eu estou ótima! Fui criada para ajudar você a acertar os seus palpites.</p>
           <p>Aqui somos três inteligências artificiais trabalhando para seu melhor lucro — vamos nos chamar de <b>Chute Milionário</b>.</p>
-          <p>Trabalho 24 horas analisando jogos anteriores.</p>
-          <p>Até agora acertei 3 jogos ao vivo e 2 palpites!</p>
-          <p>Infelizmente, 5 bilhetes com 7 jogos bateram na trave, <b>mas só deu um red</b>.</p>
-          <p>A cada dia busco mais vitórias.</p>
-          <p>Mais uma vez, <b>bem-vindo à família</b> e boa sorte!</p>
-          <button onclick="fecharMensagem()" style="margin-top: 10px; width: 100%;">Sair</button>
-        `;
-        msgInfo.classList.remove('hidden');
-      }
-    }
-
-    function fecharMensagem() {
-      const msgInfo = document.getElementById('msg-info');
-      msgInfo.classList.add('hidden');
-      msgInfo.innerHTML = '';
-    }
-
-    function irParaPagina3() {
-      document.getElementById('pagina2').classList.add('hidden');
-      document.getElementById('pagina3').classList.remove('hidden');
-    }
-
-    function voltarParaInicio() {
-      document.getElementById('pagina2').classList.add('hidden');
-      document.getElementById('pagina3').classList.add('hidden');
-      document.getElementById('cadastro').classList.remove('hidden');
-      document.getElementById('login').classList.remove('hidden');
-      window.scrollTo(0, 0);
-    }
-
-    // Busca jogos ao vivo da API-Football com chave API já inserida
-    async function buscarJogosAoVivo() {
-      const listaJogos = document.getElementById('lista-jogos');
-      listaJogos.textContent = 'Carregando jogos ao vivo...';
-
-      try {
-        const response = await fetch('https://v3.football.api-sports.io/fixtures?live=all', {
-          method: 'GET',
-          headers: {
-            'x-apisports-key': '30ee672b4b4191d900f0d34820991686'
-          }
-        });
-
-        if (!response.ok) throw new Error('Erro na requisição da API');
-
-        const data = await response.json();
-
-        if (!data.response || data.response.length === 0) {
-          listaJogos.textContent = 'Nenhum jogo ao vivo no momento.';
-          return;
-        }
-
-        listaJogos.innerHTML = '';
-
-        data.response.forEach(jogo => {
-          const timeCasa = jogo.teams.home.name;
-          const timeFora = jogo.teams.away.name;
-          const placarCasa = jogo.goals.home !== null ? jogo.goals.home : '-';
-          const placarFora = jogo.goals.away !== null ? jogo.goals.away : '-';
-          const status = jogo.fixture.status.long;
-
-          const totalGols = (jogo.goals.home ?? 0) + (jogo.goals.away ?? 0);
-          // Exemplo simples de palpite
-          const palpite = totalGols < 2.5 ? "Palpite: Menos de 2.5 gols" : "Palpite: Mais de 2.5 gols";
-
-          const divJogo = document.createElement('div');
-          divJogo.className = 'jogo';
-          divJogo.innerHTML = `
-            <strong>${timeCasa} ${placarCasa} x ${placarFora} ${timeFora}</strong><br/>
-            Status: ${status}<br/>
-            <span class="palpite">${palpite}</span>
-          `;
-          listaJogos.appendChild(divJogo);
-        });
-      } catch (error) {
-        listaJogos.textContent = 'Erro ao carregar jogos ao vivo.';
-        console.error(error);
-      }
-    }
-  </script>
-</body>
-                                    </html>
+          <p
