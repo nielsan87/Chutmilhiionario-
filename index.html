@@ -44,7 +44,6 @@
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 0 20px #00ffff33;
-      position: relative;
     }
     .container h2 {
       color: #00ffff;
@@ -81,22 +80,6 @@
       width: 100%;
       margin: 10px 0;
     }
-    /* Correção das bolinhas (radios) */
-    input[type="radio"] {
-      width: auto;
-      display: inline-block;
-      margin-right: 5px;
-      vertical-align: middle;
-      cursor: pointer;
-    }
-    label.radio-label {
-      display: inline-block;
-      margin-right: 15px;
-      cursor: pointer;
-      color: #fff;
-      user-select: none;
-      vertical-align: middle;
-    }
     button {
       background-color: #00ffff;
       color: #000;
@@ -105,7 +88,6 @@
       padding: 10px;
       cursor: pointer;
       border-radius: 6px;
-      transition: background-color 0.3s;
     }
     button:hover {
       background-color: #00cccc;
@@ -121,20 +103,15 @@
       color: #44ff44;
     }
 
-    /* Animação do robô */
-    .robot-container {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 80px;
-      height: 80px;
-      animation: robot-bounce 2s infinite;
-      user-select: none;
+    /* Correção para o agrupamento dos radio buttons */
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
-
-    @keyframes robot-bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
+    .radio-group label {
+      margin: 0;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -157,20 +134,12 @@
       <input type="password" id="senha" required />
       <label for="data">Data de nascimento</label>
       <input type="date" id="data" required />
-      <label>Você é maior de 18 anos?</label>
-      <label class="radio-label">
-        <input type="radio" name="maior18" value="sim" required /> Sim
-      </label>
-      <label class="radio-label">
-        <input type="radio" name="maior18" value="nao" /> Não
-      </label>
+      <div class="radio-group">
+        <label><input type="radio" name="maior18" value="sim" required /> Sim</label>
+        <label><input type="radio" name="maior18" value="nao" /> Não</label>
+      </div>
       <button type="submit">Cadastrar</button>
       <div class="message" id="msg-cadastro"></div>
-
-      <!-- Robô animado na tela de cadastro -->
-      <div class="robot-container" title="Robô animado 🤖">
-        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712312.png" alt="Robô animado" style="width:100%; height:100%;" />
-      </div>
     </form>
   </div>
 
@@ -198,11 +167,6 @@
     <div id="jogos-ao-vivo">
       <h3>Jogos ao vivo</h3>
       <div id="lista-jogos">Carregando jogos ao vivo...</div>
-    </div>
-
-    <!-- Robô animado na segunda página -->
-    <div class="robot-container" title="Robô animado 🤖" style="top: 10px; left: 10px; right: auto;">
-      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712312.png" alt="Robô animado" style="width:100%; height:100%;" />
     </div>
   </div>
 
@@ -294,21 +258,4 @@
       const usuario = validarLogin(nome, senha);
       if (usuario) {
         document.getElementById('usuario-nome').textContent = usuario.nome;
-        document.getElementById('cadastro').classList.add('hidden');
-        document.getElementById('login').classList.add('hidden');
-        document.getElementById('pagina2').classList.remove('hidden');
-        buscarJogosAoVivo();
-        setInterval(buscarJogosAoVivo, 60000);
-      } else {
-        msg.textContent = 'Usuário ou senha incorretos.';
-        msg.classList.add('error');
-      }
-    });
-
-    function mostrarMensagem() {
-      const msgInfo = document.getElementById('msg-info');
-      if (msgInfo.classList.contains('hidden')) {
-        msgInfo.innerHTML = `
-          <p>Olá, tudo bem? Eu estou ótima! Fui criada para ajudar você a acertar os seus palpites.</p>
-          <p>Aqui somos três inteligências artificiais trabalhando para seu melhor lucro — vamos nos chamar de <b>Chute Milionário</b>.</p>
-          <p
+        document.getElementById('cadastro').classList.add('
