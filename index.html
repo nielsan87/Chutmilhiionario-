@@ -16,10 +16,26 @@
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #00ffff;
+      position: relative;
     }
     header h1 {
       margin: 0;
       color: #00ffff;
+    }
+    /* Robô animado no header */
+    #robo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 50px;
+      height: 50px;
+      background: url('https://i.imgur.com/ojgZCPE.gif') no-repeat center center;
+      background-size: contain;
+      animation: robo-bounce 2s infinite ease-in-out;
+    }
+    @keyframes robo-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     nav {
       display: flex;
@@ -44,6 +60,7 @@
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 0 20px #00ffff33;
+      position: relative;
     }
     .container h2 {
       color: #00ffff;
@@ -102,22 +119,26 @@
     .success {
       color: #44ff44;
     }
-
-    /* Correção para o agrupamento dos radio buttons */
+    /* Estilo das bolinhas maior de 18 anos */
     .radio-group {
       display: flex;
-      gap: 10px;
-      align-items: center;
+      gap: 20px;
+      margin-bottom: 10px;
     }
     .radio-group label {
-      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
       cursor: pointer;
+      user-select: none;
+      font-weight: normal;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>El Diacho de Tips</h1>
+    <div id="robo" title="Robô animado"></div>
   </header>
 
   <nav>
@@ -195,7 +216,7 @@
   </footer>
 
   <script>
-    // Cadastro e login - localStorage simples
+    // Funções para cadastro e login
     function salvarUsuario(usuario) {
       let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
       usuarios.push(usuario);
@@ -258,4 +279,41 @@
       const usuario = validarLogin(nome, senha);
       if (usuario) {
         document.getElementById('usuario-nome').textContent = usuario.nome;
-        document.getElementById('cadastro').classList.add('
+        document.getElementById('cadastro').classList.add('hidden');
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('pagina2').classList.remove('hidden');
+        buscarJogosAoVivo();
+        setInterval(buscarJogosAoVivo, 60000);
+      } else {
+        msg.textContent = 'Usuário ou senha incorretos.';
+        msg.classList.add('error');
+      }
+    });
+
+    function mostrarMensagem() {
+      const msgInfo = document.getElementById('msg-info');
+      if (msgInfo.classList.contains('hidden')) {
+        msgInfo.innerHTML = `
+          <p>Olá, tudo bem? Eu estou ótima! Fui criada para ajudar você a acertar os seus palpites.</p>
+          <p>Aqui somos três inteligências artificiais trabalhando para seu melhor lucro — vamos nos chamar de <b>Chute Milionário</b>.</p>
+          <p>Trabalho 24 horas analisando jogos anteriores.</p>
+          <p>Até agora acertei 3 jogos ao vivo e 2 palpites!</p>
+          <p>Infelizmente, 5 bilhetes com 7 jogos bateram na trave, <b>mas só deu um red</b>.</p>
+          <p>A cada dia busco mais vitórias.</p>
+          <p>Mais uma vez, <b>bem-vindo à família</b> e boa sorte!</p>
+          <button onclick="fecharMensagem()" style="margin-top: 10px; width: 100%;">Sair</button>
+        `;
+        msgInfo.classList.remove('hidden');
+      }
+    }
+
+    function fecharMensagem() {
+      const msgInfo = document.getElementById('msg-info');
+      msgInfo.classList.add('hidden');
+      msgInfo.innerHTML = '';
+    }
+
+    function irParaPagina3() {
+      document.getElementById('pagina2').classList.add('hidden');
+      document.getElementById('pagina3').classList.remove('hidden');
+    }
