@@ -1,37 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>El Diacho de Tips</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: #0d0d1a;
-      color: #ffffff;
+      color: #fff;
     }
-
     header {
       background-color: #111;
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #00ffff;
     }
-
     header h1 {
       margin: 0;
       font-size: 2em;
       color: #00ffff;
     }
-
-    .imagem-topo {
-      display: block;
-      margin: 30px auto 10px;
-      width: 300px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px #00ffff33;
-    }
-
     nav {
       display: flex;
       justify-content: center;
@@ -39,13 +28,14 @@
       background-color: #1a1a2e;
       padding: 10px 0;
     }
-
     nav a {
       color: #00ffff;
       text-decoration: none;
       font-weight: bold;
     }
-
+    nav a:hover {
+      text-decoration: underline;
+    }
     .container {
       max-width: 600px;
       margin: 30px auto;
@@ -54,18 +44,15 @@
       border-radius: 15px;
       box-shadow: 0 0 20px #00ffff33;
     }
-
     .container h2 {
       color: #00ffff;
       text-align: center;
     }
-
     label {
       display: block;
       margin-top: 15px;
       font-weight: bold;
     }
-
     input[type="text"],
     input[type="password"],
     input[type="date"] {
@@ -77,11 +64,9 @@
       background-color: #333;
       color: white;
     }
-
     .checkbox {
       margin-top: 10px;
     }
-
     button {
       margin-top: 20px;
       width: 100%;
@@ -94,7 +79,9 @@
       font-weight: bold;
       cursor: pointer;
     }
-
+    button:hover {
+      background-color: #00cccc;
+    }
     footer {
       margin-top: 40px;
       text-align: center;
@@ -104,6 +91,80 @@
       font-size: 0.9em;
       color: #888;
     }
+    /* Cabeça do robô */
+    .robot-head {
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(135deg, #00ffff 0%, #006666 100%);
+      border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+      margin: 30px auto 20px;
+      position: relative;
+      box-shadow: 0 0 15px #00ffff99;
+      animation: pulse 3s infinite ease-in-out;
+    }
+    /* Olhos */
+    .eye {
+      position: absolute;
+      top: 60px;
+      width: 40px;
+      height: 40px;
+      background: #000;
+      border-radius: 50%;
+      box-shadow: inset 0 0 10px #00ffff;
+      animation: eye-glow 3s infinite alternate;
+    }
+    .eye.left {
+      left: 45px;
+    }
+    .eye.right {
+      right: 45px;
+    }
+    /* Pupilas */
+    .pupil {
+      width: 15px;
+      height: 15px;
+      background: #00ffff;
+      border-radius: 50%;
+      margin: 12px auto 0 auto;
+      animation: pupil-move 3s infinite alternate;
+    }
+    /* Boca */
+    .mouth {
+      position: absolute;
+      bottom: 45px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 20px;
+      border-radius: 0 0 40px 40px;
+      background: #003333;
+      box-shadow: inset 0 5px 10px #00ffff99;
+    }
+    /* Animações */
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 15px #00ffff99;
+      }
+      50% {
+        box-shadow: 0 0 30px #00ffffee;
+      }
+    }
+    @keyframes eye-glow {
+      0% {
+        box-shadow: inset 0 0 10px #00ffff;
+      }
+      100% {
+        box-shadow: inset 0 0 20px #00ffffee;
+      }
+    }
+    @keyframes pupil-move {
+      0% {
+        margin-left: 10px;
+      }
+      100% {
+        margin-left: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -112,7 +173,15 @@
     <h1>El Diacho de Tips</h1>
   </header>
 
-  <img src="cerebro-digital.jpg" alt="Imagem Futurista de Rosto com Circuitos" class="imagem-topo">
+  <div class="robot-head">
+    <div class="eye left">
+      <div class="pupil"></div>
+    </div>
+    <div class="eye right">
+      <div class="pupil"></div>
+    </div>
+    <div class="mouth"></div>
+  </div>
 
   <nav>
     <a href="#cadastro">Cadastro</a>
@@ -123,18 +192,20 @@
     <h2>Cadastro</h2>
     <form>
       <label for="nome">Nome</label>
-      <input type="text" id="nome" name="nome" placeholder="Digite seu nome">
+      <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
 
       <label for="senha">Senha</label>
-      <input type="password" id="senha" name="senha" placeholder="Digite uma senha">
+      <input type="password" id="senha" name="senha" placeholder="Digite uma senha" required>
 
       <label for="data">Data de nascimento</label>
-      <input type="date" id="data" name="data">
+      <input type="date" id="data" name="data" required>
 
       <div class="checkbox">
-        <label>Você é maior de 18 anos?</label>
-        <input type="radio" name="maior18" value="sim"> Sim
-        <input type="radio" name="maior18" value="nao"> Não
+        <label>Você é maior de 18 anos?</label><br>
+        <input type="radio" id="maior-sim" name="maior18" value="sim">
+        <label for="maior-sim">Sim</label>
+        <input type="radio" id="maior-nao" name="maior18" value="nao">
+        <label for="maior-nao">Não</label>
       </div>
 
       <button type="submit">Cadastrar</button>
@@ -145,10 +216,10 @@
     <h2>Entrar</h2>
     <form>
       <label for="login-nome">Nome de usuário</label>
-      <input type="text" id="login-nome" name="login-nome" placeholder="Seu nome de usuário">
+      <input type="text" id="login-nome" name="login-nome" placeholder="Seu nome de usuário" required>
 
       <label for="login-senha">Senha</label>
-      <input type="password" id="login-senha" name="login-senha" placeholder="Sua senha">
+      <input type="password" id="login-senha" name="login-senha" placeholder="Sua senha" required>
 
       <button type="submit">Entrar</button>
     </form>
