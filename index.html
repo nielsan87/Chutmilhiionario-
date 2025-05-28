@@ -16,10 +16,12 @@
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #00ffff;
+      position: relative;
     }
     header h1 {
       margin: 0;
       color: #00ffff;
+      font-weight: bold;
     }
     nav {
       display: flex;
@@ -44,6 +46,7 @@
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 0 20px #00ffff33;
+      position: relative;
     }
     .container h2 {
       color: #00ffff;
@@ -72,9 +75,6 @@
       font-style: italic;
       color: #a0ffaa;
     }
-    .hidden {
-      display: none;
-    }
     label, input, button {
       display: block;
       width: 100%;
@@ -88,6 +88,7 @@
       padding: 10px;
       cursor: pointer;
       border-radius: 6px;
+      transition: background-color 0.3s ease;
     }
     button:hover {
       background-color: #00cccc;
@@ -102,16 +103,56 @@
     .success {
       color: #44ff44;
     }
+    /* Ajuste para as bolinhas do maior de 18 */
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      margin: 10px 0;
+    }
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-weight: normal;
+      color: #fff;
+    }
+    .radio-group input[type="radio"] {
+      cursor: pointer;
+      margin: 0;
+    }
+
+    /* Animação do robô */
+    .robot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 80px;
+      height: 80px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* Esconder containers para navegação */
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>El Diacho de Tips</h1>
+    <!-- Animação do robô no header -->
+    <img src="https://i.imgur.com/8QfJz3Q.png" alt="Robô animado" class="robot" />
   </header>
 
   <nav>
-    <a href="#cadastro">Futebol</a>
-    <a href="#login">Casino</a>
+    <a href="#cadastro" onclick="mostrarContainer('cadastro')">Futebol</a>
+    <a href="#login" onclick="mostrarContainer('login')">Casino</a>
   </nav>
 
   <div class="container" id="cadastro">
@@ -123,15 +164,16 @@
       <input type="password" id="senha" required />
       <label for="data">Data de nascimento</label>
       <input type="date" id="data" required />
-      <label>Você é maior de 18 anos?</label>
-      <input type="radio" name="maior18" value="sim" required /> Sim
-      <input type="radio" name="maior18" value="nao" /> Não
+      <div class="radio-group">
+        <label><input type="radio" name="maior18" value="sim" required /> Sim</label>
+        <label><input type="radio" name="maior18" value="nao" /> Não</label>
+      </div>
       <button type="submit">Cadastrar</button>
       <div class="message" id="msg-cadastro"></div>
     </form>
   </div>
 
-  <div class="container" id="login">
+  <div class="container hidden" id="login">
     <h2>Entrar</h2>
     <form id="form-login">
       <label for="login-nome">Nome de usuário</label>
@@ -183,7 +225,16 @@
   </footer>
 
   <script>
-    // Cadastro e login - localStorage simples
+    // Navegação simples entre containers
+    function mostrarContainer(id) {
+      const containers = ['cadastro', 'login', 'pagina2', 'pagina3'];
+      containers.forEach(c => {
+        document.getElementById(c).classList.add('hidden');
+      });
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    // Cadastro e login - armazenamento simples em localStorage
     function salvarUsuario(usuario) {
       let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
       usuarios.push(usuario);
@@ -224,121 +275,128 @@
       }
 
       if (usuarioExiste(nome)) {
-        msg.textContent = 'Este nome já está cadastrado.';
+        msg.textContent = 'Nome já cadastrado.';
         msg.classList.add('error');
         return;
       }
 
       salvarUsuario({ nome, senha, data, maior18: maior18.value });
-      msg.textContent = 'Cadastro realizado com sucesso! Você já pode entrar.';
+      msg.textContent = 'Cadastro realizado com sucesso!';
       msg.classList.add('success');
-      this.reset();
+
+      // Limpar formulário
+      e.target.reset();
     });
 
     document.getElementById('form-login').addEventListener('submit', function(e) {
       e.preventDefault();
       const nome = document.getElementById('login-nome').value.trim();
       const senha = document.getElementById('login-senha').value.trim();
+
       const msg = document.getElementById('msg-login');
       msg.textContent = '';
       msg.className = 'message';
 
       const usuario = validarLogin(nome, senha);
-      if (usuario) {
-        document.getElementById('usuario-nome').textContent = usuario.nome;
-        document.getElementById('cadastro').classList.add('hidden');
-        document.getElementById('login').classList.add('hidden');
-        document.getElementById('pagina2').classList.remove('hidden');
-        buscarJogosAoVivo();
-        setInterval(buscarJogosAoVivo, 60000);
-      } else {
+      if (!usuario) {
         msg.textContent = 'Usuário ou senha incorretos.';
         msg.classList.add('error');
+        return;
       }
+
+      msg.textContent = 'Login realizado com sucesso!';
+      msg.classList.add('success');
+
+      // Mostrar página 2 com nome do usuário
+      document.getElementById('usuario-nome').textContent = usuario.nome;
+      mostrarContainer('pagina2');
+
+      // Carregar jogos ao vivo
+      carregarJogosAoVivo();
     });
 
     function mostrarMensagem() {
       const msgInfo = document.getElementById('msg-info');
-      if (msgInfo.classList.contains('hidden')) {
-        msgInfo.innerHTML = `
-          <p>Olá, tudo bem? Eu estou ótima! Fui criada para ajudar você a acertar os seus palpites.</p>
-          <p>Aqui somos três inteligências artificiais trabalhando para seu melhor lucro — vamos nos chamar de <b>Chute Milionário</b>.</p>
-          <p>Trabalho 24 horas analisando jogos anteriores.</p>
-          <p>Até agora acertei 3 jogos ao vivo e 2 palpites!</p>
-          <p>Infelizmente, 5 bilhetes com 7 jogos bateram na trave, <b>mas só deu um red</b>.</p>
-          <p>A cada dia busco mais vitórias.</p>
-          <p>Mais uma vez, <b>bem-vindo à família</b> e boa sorte!</p>
-          <button onclick="fecharMensagem()" style="margin-top: 10px; width: 100%;">Sair</button>
-        `;
-        msgInfo.classList.remove('hidden');
-      }
-    }
-
-    function fecharMensagem() {
-      const msgInfo = document.getElementById('msg-info');
-      msgInfo.classList.add('hidden');
-      msgInfo.innerHTML = '';
+      msgInfo.textContent = 'Aqui você encontra análises profissionais e dicas atualizadas para ganhar nos seus palpites.';
+      msgInfo.classList.remove('hidden');
     }
 
     function irParaPagina3() {
-      document.getElementById('pagina2').classList.add('hidden');
-      document.getElementById('pagina3').classList.remove('hidden');
+      mostrarContainer('pagina3');
     }
 
     function voltarParaInicio() {
-      document.getElementById('pagina2').classList.add('hidden');
-      document.getElementById('pagina3').classList.add('hidden');
-      document.getElementById('cadastro').classList.remove('hidden');
-      document.getElementById('login').classList.remove('hidden');
-      window.scrollTo(0, 0);
+      mostrarContainer('login');
     }
 
-    // Busca jogos ao vivo da API-Football
-    async function buscarJogosAoVivo() {
+    // Função para gerar palpites variados
+    function gerarPalpite() {
+      const palpites = [
+        'Vitória do time da casa',
+        'Vitória do time visitante',
+        'Mais de 2.5 gols',
+        'Menos de 2.5 gols',
+        'Mais de 3 escanteios',
+        'Menos de 3 escanteios',
+        'Ambas as equipes marcam',
+        'Nenhuma equipe marca',
+        'Mais de 2 cartões amarelos',
+        'Empate no jogo',
+        'Gol no primeiro tempo',
+        'Gol no segundo tempo'
+      ];
+      return palpites[Math.floor(Math.random() * palpites.length)];
+    }
+
+    // Sua chave da API football.com
+    const API_KEY = '30ee672b4b4191d900f0d34820991686';
+
+    // Função para carregar jogos ao vivo da API football.com
+    async function carregarJogosAoVivo() {
       const listaJogos = document.getElementById('lista-jogos');
       listaJogos.textContent = 'Carregando jogos ao vivo...';
 
       try {
-        const response = await fetch('https://v3.football.api-sports.io/fixtures?live=all', {
-          method: 'GET',
+        const response = await fetch('https://api.football.com/matches?status=live', {
           headers: {
-            'x-apisports-key': 'SUA_API_KEY_AQUI'
+            'Authorization': API_KEY
           }
         });
 
-        if (!response.ok) throw new Error('Erro na requisição da API');
+        if (!response.ok) {
+          listaJogos.textContent = 'Erro ao carregar jogos ao vivo.';
+          return;
+        }
 
         const data = await response.json();
 
-        if (!data.response || data.response.length === 0) {
+        if (!data.matches || data.matches.length === 0) {
           listaJogos.textContent = 'Nenhum jogo ao vivo no momento.';
           return;
         }
 
+        // Limpar lista
         listaJogos.innerHTML = '';
 
-        data.response.forEach(jogo => {
-          const timeCasa = jogo.teams.home.name;
-          const timeFora = jogo.teams.away.name;
-          const placarCasa = jogo.goals.home !== null ? jogo.goals.home : '-';
-          const placarFora = jogo.goals.away !== null ? jogo.goals.away : '-';
-          const status = jogo.fixture.status.long;
-
-          const totalGols = (jogo.goals.home ?? 0) + (jogo.goals.away ?? 0);
-          // Exemplo simples de palpite
-          const palpite = totalGols < 2.5 ? "Palpite: Menos de 2.5 gols" : "Palpite: Mais de 2.5 gols";
-
+        data.matches.forEach(jogo => {
           const divJogo = document.createElement('div');
           divJogo.className = 'jogo';
+
+          // Exemplo: Time A vs Time B - 1º Tempo - 45:23
+          const nomeJogo = `${jogo.homeTeam.name} vs ${jogo.awayTeam.name} - ${jogo.status} - ${jogo.currentMinute}'`;
+
+          const palpite = gerarPalpite();
+
           divJogo.innerHTML = `
-            <strong>${timeCasa} ${placarCasa} x ${placarFora} ${timeFora}</strong><br/>
-            Status: ${status}<br/>
-            <span class="palpite">${palpite}</span>
+            <strong>${nomeJogo}</strong>
+            <div class="palpite">Palpite: ${palpite}</div>
           `;
+
           listaJogos.appendChild(divJogo);
         });
+
       } catch (error) {
-        listaJogos.textContent = 'Erro ao carregar jogos ao vivo.';
+        listaJogos.textContent = 'Erro na conexão com a API.';
         console.error(error);
       }
     }
