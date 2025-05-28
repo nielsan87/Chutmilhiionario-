@@ -3,9 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <title>El Diacho de Tips</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    body {
       font-family: Arial, sans-serif;
       background-color: #0d0d1a;
       color: #fff;
@@ -32,6 +37,7 @@
       color: #00ffff;
       text-decoration: none;
       font-weight: bold;
+      cursor: pointer;
     }
     nav a:hover {
       text-decoration: underline;
@@ -68,7 +74,7 @@
       margin-top: 10px;
     }
     button {
-      margin-top: 20px;
+      margin-top: 10px;
       width: 100%;
       padding: 12px;
       background-color: #00ffff;
@@ -79,9 +85,6 @@
       font-weight: bold;
       cursor: pointer;
     }
-    button:hover {
-      background-color: #00cccc;
-    }
     footer {
       margin-top: 40px;
       text-align: center;
@@ -91,143 +94,218 @@
       font-size: 0.9em;
       color: #888;
     }
-    /* Cabeça do robô */
-    .robot-head {
-      width: 200px;
-      height: 200px;
-      background: linear-gradient(135deg, #00ffff 0%, #006666 100%);
-      border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
-      margin: 30px auto 20px;
-      position: relative;
-      box-shadow: 0 0 15px #00ffff99;
-      animation: pulse 3s infinite ease-in-out;
+    .hidden {
+      display: none !important;
     }
-    /* Olhos */
-    .eye {
-      position: absolute;
-      top: 60px;
-      width: 40px;
-      height: 40px;
-      background: #000;
-      border-radius: 50%;
-      box-shadow: inset 0 0 10px #00ffff;
-      animation: eye-glow 3s infinite alternate;
+
+    /* Animação do robozinho piscando */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
     }
-    .eye.left {
-      left: 45px;
+    .robozinho {
+      display: block;
+      margin: 15px auto 10px auto;
+      width: 80px;
+      animation: blink 2s infinite;
     }
-    .eye.right {
-      right: 45px;
-    }
-    /* Pupilas */
-    .pupil {
-      width: 15px;
-      height: 15px;
-      background: #00ffff;
-      border-radius: 50%;
-      margin: 12px auto 0 auto;
-      animation: pupil-move 3s infinite alternate;
-    }
-    /* Boca */
-    .mouth {
-      position: absolute;
-      bottom: 45px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 20px;
-      border-radius: 0 0 40px 40px;
-      background: #003333;
-      box-shadow: inset 0 5px 10px #00ffff99;
-    }
-    /* Animações */
-    @keyframes pulse {
-      0%, 100% {
-        box-shadow: 0 0 15px #00ffff99;
-      }
-      50% {
-        box-shadow: 0 0 30px #00ffffee;
-      }
-    }
-    @keyframes eye-glow {
-      0% {
-        box-shadow: inset 0 0 10px #00ffff;
-      }
-      100% {
-        box-shadow: inset 0 0 20px #00ffffee;
-      }
-    }
-    @keyframes pupil-move {
-      0% {
-        margin-left: 10px;
-      }
-      100% {
-        margin-left: 20px;
-      }
+
+    /* Estilo para a mensagem de info */
+    #msg-info {
+      background-color: #002b1a;
+      color: #00ff88;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 10px;
+      font-size: 1em;
+      line-height: 1.4em;
     }
   </style>
 </head>
 <body>
-
   <header>
     <h1>El Diacho de Tips</h1>
   </header>
 
-  <div class="robot-head">
-    <div class="eye left">
-      <div class="pupil"></div>
-    </div>
-    <div class="eye right">
-      <div class="pupil"></div>
-    </div>
-    <div class="mouth"></div>
-  </div>
-
   <nav>
-    <a href="#cadastro">Cadastro</a>
-    <a href="#login">Entrar</a>
+    <a href="#cadastro">Futebol</a>
+    <a href="#login">Casino</a>
   </nav>
 
   <div class="container" id="cadastro">
     <h2>Cadastro</h2>
-    <form>
+    <form id="form-cadastro">
       <label for="nome">Nome</label>
-      <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
-
+      <input type="text" id="nome" required />
       <label for="senha">Senha</label>
-      <input type="password" id="senha" name="senha" placeholder="Digite uma senha" required>
-
+      <input type="password" id="senha" required />
       <label for="data">Data de nascimento</label>
-      <input type="date" id="data" name="data" required>
-
+      <input type="date" id="data" required />
       <div class="checkbox">
-        <label>Você é maior de 18 anos?</label><br>
-        <input type="radio" id="maior-sim" name="maior18" value="sim">
-        <label for="maior-sim">Sim</label>
-        <input type="radio" id="maior-nao" name="maior18" value="nao">
-        <label for="maior-nao">Não</label>
+        <label>Você é maior de 18 anos?</label><br />
+        <input type="radio" name="maior18" value="sim" required /> Sim
+        <input type="radio" name="maior18" value="nao" /> Não
       </div>
-
       <button type="submit">Cadastrar</button>
+      <div class="message" id="msg-cadastro"></div>
     </form>
   </div>
 
   <div class="container" id="login">
     <h2>Entrar</h2>
-    <form>
+    <form id="form-login">
       <label for="login-nome">Nome de usuário</label>
-      <input type="text" id="login-nome" name="login-nome" placeholder="Seu nome de usuário" required>
-
+      <input type="text" id="login-nome" required />
       <label for="login-senha">Senha</label>
-      <input type="password" id="login-senha" name="login-senha" placeholder="Sua senha" required>
-
+      <input type="password" id="login-senha" required />
       <button type="submit">Entrar</button>
+      <div class="message" id="msg-login"></div>
     </form>
+  </div>
+
+  <div class="container hidden" id="pagina2">
+    <h2>Bem-vindo, <span id="usuario-nome"></span>!</h2>
+    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Robozinho piscando" class="robozinho" />
+    <p style="font-size: 1.2em; color: #00ff88; font-weight: bold;">
+      ⚽ Bem-vindo ao nosso mundo de palpites esportivos! Prepare-se para análises quentes e dicas certeiras!
+    </p>
+    <button onclick="mostrarMensagem()">Saiba mais</button>
+    <div id="msg-info" class="hidden"></div>
+    <button onclick="irParaPagina3()" style="margin-top: 10px;">Ver Análises</button>
+  </div>
+
+  <div class="container hidden" id="pagina3">
+    <h2>Acerto 93%</h2>
+    <div style="margin: 20px 0;">
+      <button>Análise futebol ao vivo</button>
+      <button>Análise palpites</button>
+      <button>Análise canto mais/menos</button>
+      <button>Análise ambas marcam</button>
+      <button>Análise cartão mais/ou menos</button>
+      <button>Análise empate</button>
+      <button>Análise vitória</button>
+      <button>Análise gol mais/menos</button>
+    </div>
+    <div style="margin-top: 30px;">
+      <a href="https://t.me/bancablindadachutemilionario" target="_blank">
+        <button>Telegram Free</button>
+      </a>
+      <button onclick="voltarParaInicio()">Sair</button>
+    </div>
   </div>
 
   <footer>
     &copy; 2025 El Diacho de Tips. Todos os direitos reservados.
   </footer>
 
+  <script>
+    function salvarUsuario(usuario) {
+      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+      usuarios.push(usuario);
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+    }
+
+    function usuarioExiste(nome) {
+      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+      return usuarios.some(u => u.nome.toLowerCase() === nome.toLowerCase());
+    }
+
+    function validarLogin(nome, senha) {
+      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+      return usuarios.find(u => u.nome.toLowerCase() === nome.toLowerCase() && u.senha === senha);
+    }
+
+    document.getElementById('form-cadastro').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value.trim();
+      const senha = document.getElementById('senha').value.trim();
+      const data = document.getElementById('data').value;
+      const maior18 = document.querySelector('input[name="maior18"]:checked');
+
+      const msg = document.getElementById('msg-cadastro');
+      msg.textContent = '';
+      msg.className = 'message';
+
+      if (!nome || !senha || !data || !maior18) {
+        msg.textContent = 'Preencha todos os campos.';
+        msg.classList.add('error');
+        return;
+      }
+
+      if (maior18.value !== 'sim') {
+        msg.textContent = 'Você precisa ser maior de 18 anos para se cadastrar.';
+        msg.classList.add('error');
+        return;
+      }
+
+      if (usuarioExiste(nome)) {
+        msg.textContent = 'Este nome já está cadastrado.';
+        msg.classList.add('error');
+        return;
+      }
+
+      salvarUsuario({ nome, senha, data, maior18: maior18.value });
+
+      msg.textContent = 'Cadastro realizado com sucesso! Você já pode entrar.';
+      msg.classList.add('success');
+      this.reset();
+    });
+
+    document.getElementById('form-login').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nome = document.getElementById('login-nome').value.trim();
+      const senha = document.getElementById('login-senha').value.trim();
+      const msg = document.getElementById('msg-login');
+      msg.textContent = '';
+      msg.className = 'message';
+
+      const usuario = validarLogin(nome, senha);
+      if (usuario) {
+        document.getElementById('usuario-nome').textContent = usuario.nome;
+        document.getElementById('cadastro').classList.add('hidden');
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('pagina2').classList.remove('hidden');
+      } else {
+        msg.textContent = 'Usuário ou senha incorretos.';
+        msg.classList.add('error');
+      }
+    });
+
+    function irParaPagina3() {
+      document.getElementById('pagina2').classList.add('hidden');
+      document.getElementById('pagina3').classList.remove('hidden');
+    }
+
+    function voltarParaInicio() {
+      document.getElementById('pagina2').classList.add('hidden');
+      document.getElementById('pagina3').classList.add('hidden');
+      document.getElementById('cadastro').classList.remove('hidden');
+      document.getElementById('login').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function mostrarMensagem() {
+      const msgInfo = document.getElementById('msg-info');
+      if (msgInfo.classList.contains('hidden')) {
+        msgInfo.innerHTML = `
+          <p>Olá, tudo bem? Eu estou ótima! Fui criada para ajudar você a acertar os seus palpites.</p>
+          <p>Aqui somos três inteligências artificiais trabalhando para seu melhor lucro — vamos nos chamar de <b>Chute Milionário</b>.</p>
+          <p>Trabalho 24 horas analisando jogos anteriores.</p>
+          <p>Até agora acertei 3 jogos ao vivo e 2 palpites!</p>
+          <p>Infelizmente, 5 bilhetes com 7 jogos bateram na trave, <b>mas só deu um red</b>.</p>
+          <p>A cada dia busco mais vitórias.</p>
+          <p>Mais uma vez, <b>bem-vindo à família</b> e boa sorte!</p>
+          <button onclick="fecharMensagem()" style="margin-top: 10px; width: 100%;">Sair</button>
+        `;
+        msgInfo.classList.remove('hidden');
+      }
+    }
+
+    function fecharMensagem() {
+      const msgInfo = document.getElementById('msg-info');
+      msgInfo.classList.add('hidden');
+      msgInfo.innerHTML = '';
+    }
+  </script>
 </body>
 </html>
