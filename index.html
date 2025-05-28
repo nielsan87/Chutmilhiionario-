@@ -3,40 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <title>El Diacho de Tips</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     html, body {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
-    body {
-      font-family: Arial, sans-serif;
+      margin: 0; padding: 0; overflow-x: hidden;
       background-color: #0d0d1a;
       color: #fff;
+      font-family: Arial, sans-serif;
     }
     header {
-      background-color: #111;
+      background: #111;
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #00ffff;
     }
     header h1 {
       margin: 0;
-      font-size: 2em;
       color: #00ffff;
+      font-size: 2em;
     }
     nav {
+      background: #1a1a2e;
       display: flex;
       justify-content: center;
       gap: 40px;
-      background-color: #1a1a2e;
       padding: 10px 0;
     }
     nav a {
       color: #00ffff;
-      text-decoration: none;
       font-weight: bold;
+      text-decoration: none;
       cursor: pointer;
     }
     nav a:hover {
@@ -44,8 +40,8 @@
     }
     .container {
       max-width: 600px;
+      background: #1f1f2e;
       margin: 30px auto;
-      background-color: #1f1f2e;
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 0 20px #00ffff33;
@@ -65,10 +61,10 @@
       width: 100%;
       padding: 10px;
       margin-top: 5px;
-      border: none;
       border-radius: 8px;
-      background-color: #333;
-      color: white;
+      border: none;
+      background: #333;
+      color: #fff;
     }
     .checkbox {
       margin-top: 10px;
@@ -79,26 +75,34 @@
       padding: 12px;
       background-color: #00ffff;
       color: #000;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
       font-weight: bold;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
       cursor: pointer;
     }
     footer {
-      margin-top: 40px;
       text-align: center;
       padding: 20px;
-      background-color: #111;
+      background: #111;
       border-top: 1px solid #00ffff;
-      font-size: 0.9em;
       color: #888;
+      font-size: 0.9em;
     }
     .hidden {
       display: none !important;
     }
-
-    /* Animação do robozinho piscando */
+    .message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .message.error {
+      color: #ff5555;
+    }
+    .message.success {
+      color: #55ff55;
+    }
+    /* Robozinho piscando */
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.2; }
@@ -109,8 +113,6 @@
       width: 80px;
       animation: blink 2s infinite;
     }
-
-    /* Estilo para a mensagem de info */
     #msg-info {
       background-color: #002b1a;
       color: #00ff88;
@@ -120,18 +122,27 @@
       font-size: 1em;
       line-height: 1.4em;
     }
+    /* Lista de jogos ao vivo */
+    #lista-jogos {
+      list-style: none;
+      padding: 0;
+    }
+    #lista-jogos li {
+      border-bottom: 1px solid #00ffff33;
+      padding: 10px 0;
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>El Diacho de Tips</h1>
   </header>
-
   <nav>
     <a href="#cadastro">Futebol</a>
     <a href="#login">Casino</a>
   </nav>
 
+  <!-- Cadastro -->
   <div class="container" id="cadastro">
     <h2>Cadastro</h2>
     <form id="form-cadastro">
@@ -151,6 +162,7 @@
     </form>
   </div>
 
+  <!-- Login -->
   <div class="container" id="login">
     <h2>Entrar</h2>
     <form id="form-login">
@@ -163,6 +175,7 @@
     </form>
   </div>
 
+  <!-- Página 2 após login -->
   <div class="container hidden" id="pagina2">
     <h2>Bem-vindo, <span id="usuario-nome"></span>!</h2>
     <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Robozinho piscando" class="robozinho" />
@@ -174,6 +187,7 @@
     <button onclick="irParaPagina3()" style="margin-top: 10px;">Ver Análises</button>
   </div>
 
+  <!-- Página 3 com análises -->
   <div class="container hidden" id="pagina3">
     <h2>Acerto 93%</h2>
     <div style="margin: 20px 0;">
@@ -194,118 +208,163 @@
     </div>
   </div>
 
+  <!-- Container para jogos ao vivo -->
+  <div class="container" id="jogos-ao-vivo">
+    <h2>Jogos ao Vivo</h2>
+    <ul id="lista-jogos"></ul>
+  </div>
+
   <footer>
     &copy; 2025 El Diacho de Tips. Todos os direitos reservados.
   </footer>
 
-  <script>
-    function salvarUsuario(usuario) {
-      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-      usuarios.push(usuario);
-      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+<script>
+  // Cadastro
+  function salvarUsuario(usuario) {
+    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    usuarios.push(usuario);
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+  }
+  function usuarioExiste(nome) {
+    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    return usuarios.some(u => u.nome.toLowerCase() === nome.toLowerCase());
+  }
+  function validarLogin(nome, senha) {
+    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    return usuarios.find(u => u.nome.toLowerCase() === nome.toLowerCase() && u.senha === senha);
+  }
+
+  document.getElementById('form-cadastro').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nome = document.getElementById('nome').value.trim();
+    const senha = document.getElementById('senha').value.trim();
+    const data = document.getElementById('data').value;
+    const maior18 = document.querySelector('input[name="maior18"]:checked');
+    const msg = document.getElementById('msg-cadastro');
+    msg.textContent = '';
+    msg.className = 'message';
+
+    if (!nome || !senha || !data || !maior18) {
+      msg.textContent = 'Preencha todos os campos.';
+      msg.classList.add('error');
+      return;
     }
-
-    function usuarioExiste(nome) {
-      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-      return usuarios.some(u => u.nome.toLowerCase() === nome.toLowerCase());
+    if (maior18.value !== 'sim') {
+      msg.textContent = 'Você precisa ser maior de 18 anos para se cadastrar.';
+      msg.classList.add('error');
+      return;
     }
-
-    function validarLogin(nome, senha) {
-      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-      return usuarios.find(u => u.nome.toLowerCase() === nome.toLowerCase() && u.senha === senha);
+    if (usuarioExiste(nome)) {
+      msg.textContent = 'Este nome já está cadastrado.';
+      msg.classList.add('error');
+      return;
     }
+    salvarUsuario({ nome, senha, data, maior18: maior18.value });
+    msg.textContent = 'Cadastro realizado com sucesso! Você já pode entrar.';
+    msg.classList.add('success');
+    this.reset();
+  });
 
-    document.getElementById('form-cadastro').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const nome = document.getElementById('nome').value.trim();
-      const senha = document.getElementById('senha').value.trim();
-      const data = document.getElementById('data').value;
-      const maior18 = document.querySelector('input[name="maior18"]:checked');
+  // Login
+  document.getElementById('form-login').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nome = document.getElementById('login-nome').value.trim();
+    const senha = document.getElementById('login-senha').value.trim();
+    const msg = document.getElementById('msg-login');
+    msg.textContent = '';
+    msg.className = 'message';
 
-      const msg = document.getElementById('msg-cadastro');
-      msg.textContent = '';
-      msg.className = 'message';
-
-      if (!nome || !senha || !data || !maior18) {
-        msg.textContent = 'Preencha todos os campos.';
-        msg.classList.add('error');
-        return;
-      }
-
-      if (maior18.value !== 'sim') {
-        msg.textContent = 'Você precisa ser maior de 18 anos para se cadastrar.';
-        msg.classList.add('error');
-        return;
-      }
-
-      if (usuarioExiste(nome)) {
-        msg.textContent = 'Este nome já está cadastrado.';
-        msg.classList.add('error');
-        return;
-      }
-
-      salvarUsuario({ nome, senha, data, maior18: maior18.value });
-
-      msg.textContent = 'Cadastro realizado com sucesso! Você já pode entrar.';
-      msg.classList.add('success');
-      this.reset();
-    });
-
-    document.getElementById('form-login').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const nome = document.getElementById('login-nome').value.trim();
-      const senha = document.getElementById('login-senha').value.trim();
-      const msg = document.getElementById('msg-login');
-      msg.textContent = '';
-      msg.className = 'message';
-
-      const usuario = validarLogin(nome, senha);
-      if (usuario) {
-        document.getElementById('usuario-nome').textContent = usuario.nome;
-        document.getElementById('cadastro').classList.add('hidden');
-        document.getElementById('login').classList.add('hidden');
-        document.getElementById('pagina2').classList.remove('hidden');
-      } else {
-        msg.textContent = 'Usuário ou senha incorretos.';
-        msg.classList.add('error');
-      }
-    });
-
-    function irParaPagina3() {
-      document.getElementById('pagina2').classList.add('hidden');
-      document.getElementById('pagina3').classList.remove('hidden');
+    const usuario = validarLogin(nome, senha);
+    if (usuario) {
+      document.getElementById('usuario-nome').textContent = usuario.nome;
+      document.getElementById('cadastro').classList.add('hidden');
+      document.getElementById('login').classList.add('hidden');
+      document.getElementById('pagina2').classList.remove('hidden');
+    } else {
+      msg.textContent = 'Usuário ou senha incorretos.';
+      msg.classList.add('error');
     }
+  });
 
-    function voltarParaInicio() {
-      document.getElementById('pagina2').classList.add('hidden');
-      document.getElementById('pagina3').classList.add('hidden');
-      document.getElementById('cadastro').classList.remove('hidden');
-      document.getElementById('login').classList.remove('hidden');
-      window.scrollTo(0, 0);
-    }
-
-    function mostrarMensagem() {
-      const msgInfo = document.getElementById('msg-info');
-      if (msgInfo.classList.contains('hidden')) {
-        msgInfo.innerHTML = `
-          <p>Olá, tudo bem? Eu estou ótima! Fui criada para ajudar você a acertar os seus palpites.</p>
-          <p>Aqui somos três inteligências artificiais trabalhando para seu melhor lucro — vamos nos chamar de <b>Chute Milionário</b>.</p>
-          <p>Trabalho 24 horas analisando jogos anteriores.</p>
-          <p>Até agora acertei 3 jogos ao vivo e 2 palpites!</p>
-          <p>Infelizmente, 5 bilhetes com 7 jogos bateram na trave, <b>mas só deu um red</b>.</p>
-          <p>A cada dia busco mais vitórias.</p>
-          <p>Mais uma vez, <b>bem-vindo à família</b> e boa sorte!</p>
-          <button onclick="fecharMensagem()" style="margin-top: 10px; width: 100%;">Sair</button>
-        `;
-        msgInfo.classList.remove('hidden');
-      }
-    }
-
-    function fecharMensagem() {
-      const msgInfo = document.getElementById('msg-info');
+  function irParaPagina3() {
+    document.getElementById('pagina2').classList.add('hidden');
+    document.getElementById('pagina3').classList.remove('hidden');
+  }
+  function voltarParaInicio() {
+    document.getElementById('pagina2').classList.add('hidden');
+    document.getElementById('pagina3').classList.add('hidden');
+    document.getElementById('cadastro').classList.remove('hidden');
+    document.getElementById('login').classList.remove('hidden');
+    window.scrollTo(0, 0);
+  }
+  function mostrarMensagem() {
+    const msgInfo = document.getElementById('msg-info');
+    if (msgInfo.classList.contains('hidden')) {
+      msgInfo.innerHTML = `
+        <p>Olá, tudo bem? Eu estou ótima! Fui criada para ajudar você a acertar os seus palpites.</p>
+        <p>Aqui somos três inteligências artificiais trabalhando para seu melhor lucro — vamos nos chamar de <b>Chute Milionário</b>.</p>
+        <p>Trabalho 24 horas analisando jogos anteriores.</p>
+        <p>Até agora acertei 3 jogos ao vivo e 2 palpites!</p>
+        <p>Infelizmente, 5 bilhetes com 7 jogos bateram na trave, <b>mas só deu um red</b>.</p>
+        <p>A cada dia busco mais vitórias.</p>
+      `;
+      msgInfo.classList.remove('hidden');
+    } else {
       msgInfo.classList.add('hidden');
       msgInfo.innerHTML = '';
     }
-  </script>
+  }
+
+  // ==== Código para buscar jogos ao vivo da API ====
+
+  const API_KEY = 'COLOQUE_SUA_API_KEY_AQUI'; // <- Coloque sua API key aqui
+  const API_URL = 'https://api-football-v1.p.rapidapi.com/v3/fixtures?live=all';
+
+  async function buscarJogosAoVivo() {
+    try {
+      const resposta = await fetch(API_URL, {
+        method: 'GET',
+        headers: {
+          'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
+          'x-rapidapi-key': API_KEY
+        }
+      });
+      if (!resposta.ok) {
+        throw new Error('Erro ao buscar jogos');
+      }
+      const dados = await resposta.json();
+      mostrarJogos(dados.response);
+    } catch (erro) {
+      console.error('Erro na API:', erro);
+      document.getElementById('lista-jogos').innerHTML = '<li>Não foi possível carregar os jogos ao vivo.</li>';
+    }
+  }
+
+  function mostrarJogos(jogos) {
+    const lista = document.getElementById('lista-jogos');
+    lista.innerHTML = '';
+
+    if (!jogos || jogos.length === 0) {
+      lista.innerHTML = '<li>Nenhum jogo ao vivo no momento.</li>';
+      return;
+    }
+
+    jogos.forEach(jogo => {
+      const timeCasa = jogo.teams.home.name;
+      const timeFora = jogo.teams.away.name;
+      const golsCasa = jogo.goals.home;
+      const golsFora = jogo.goals.away;
+      const status = jogo.fixture.status.short;
+
+      const li = document.createElement('li');
+      li.textContent = `${timeCasa} ${golsCasa} x ${golsFora} ${timeFora} - ${status}`;
+      lista.appendChild(li);
+    });
+  }
+
+  // Atualiza a lista a cada 60 segundos
+  buscarJogosAoVivo();
+  setInterval(buscarJogosAoVivo, 60000);
+</script>
 </body>
 </html>
