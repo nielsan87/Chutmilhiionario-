@@ -12,7 +12,7 @@
       font-family: Arial, sans-serif;
     }
     header {
-      background: #111;
+      background-color: #111;
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #00ffff;
@@ -20,19 +20,18 @@
     header h1 {
       margin: 0;
       color: #00ffff;
-      font-size: 2em;
     }
     nav {
-      background: #1a1a2e;
       display: flex;
       justify-content: center;
       gap: 40px;
+      background-color: #1a1a2e;
       padding: 10px 0;
     }
     nav a {
       color: #00ffff;
-      font-weight: bold;
       text-decoration: none;
+      font-weight: bold;
       cursor: pointer;
     }
     nav a:hover {
@@ -40,8 +39,8 @@
     }
     .container {
       max-width: 600px;
-      background: #1f1f2e;
       margin: 30px auto;
+      background-color: #1f1f2e;
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 0 20px #00ffff33;
@@ -50,86 +49,58 @@
       color: #00ffff;
       text-align: center;
     }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
+    #jogos-ao-vivo {
+      margin-top: 20px;
+      background-color: #002b1a;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1em;
+      color: #00ff88;
+      max-height: 300px;
+      overflow-y: auto;
     }
-    input[type="text"],
-    input[type="password"],
-    input[type="date"] {
-      width: 100%;
-      padding: 10px;
+    .jogo {
+      margin-bottom: 15px;
+      border-bottom: 1px solid #00ff88;
+      padding-bottom: 10px;
+    }
+    .jogo:last-child {
+      border-bottom: none;
+    }
+    .palpite {
       margin-top: 5px;
-      border-radius: 8px;
-      border: none;
-      background: #333;
-      color: #fff;
+      font-style: italic;
+      color: #a0ffaa;
     }
-    .checkbox {
-      margin-top: 10px;
+    .hidden {
+      display: none;
+    }
+    label, input, button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
     }
     button {
-      margin-top: 10px;
-      width: 100%;
-      padding: 12px;
       background-color: #00ffff;
       color: #000;
       font-weight: bold;
-      font-size: 16px;
-      border-radius: 8px;
       border: none;
+      padding: 10px;
       cursor: pointer;
+      border-radius: 6px;
     }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #111;
-      border-top: 1px solid #00ffff;
-      color: #888;
-      font-size: 0.9em;
-    }
-    .hidden {
-      display: none !important;
+    button:hover {
+      background-color: #00cccc;
     }
     .message {
       margin-top: 10px;
       font-weight: bold;
     }
-    .message.error {
-      color: #ff5555;
+    .error {
+      color: #ff4444;
     }
-    .message.success {
-      color: #55ff55;
-    }
-    /* Robozinho piscando */
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.2; }
-    }
-    .robozinho {
-      display: block;
-      margin: 15px auto 10px auto;
-      width: 80px;
-      animation: blink 2s infinite;
-    }
-    #msg-info {
-      background-color: #002b1a;
-      color: #00ff88;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 10px;
-      font-size: 1em;
-      line-height: 1.4em;
-    }
-    /* Lista de jogos ao vivo */
-    #lista-jogos {
-      list-style: none;
-      padding: 0;
-    }
-    #lista-jogos li {
-      border-bottom: 1px solid #00ffff33;
-      padding: 10px 0;
+    .success {
+      color: #44ff44;
     }
   </style>
 </head>
@@ -137,12 +108,12 @@
   <header>
     <h1>El Diacho de Tips</h1>
   </header>
+
   <nav>
     <a href="#cadastro">Futebol</a>
     <a href="#login">Casino</a>
   </nav>
 
-  <!-- Cadastro -->
   <div class="container" id="cadastro">
     <h2>Cadastro</h2>
     <form id="form-cadastro">
@@ -152,17 +123,14 @@
       <input type="password" id="senha" required />
       <label for="data">Data de nascimento</label>
       <input type="date" id="data" required />
-      <div class="checkbox">
-        <label>Você é maior de 18 anos?</label><br />
-        <input type="radio" name="maior18" value="sim" required /> Sim
-        <input type="radio" name="maior18" value="nao" /> Não
-      </div>
+      <label>Você é maior de 18 anos?</label>
+      <input type="radio" name="maior18" value="sim" required /> Sim
+      <input type="radio" name="maior18" value="nao" /> Não
       <button type="submit">Cadastrar</button>
       <div class="message" id="msg-cadastro"></div>
     </form>
   </div>
 
-  <!-- Login -->
   <div class="container" id="login">
     <h2>Entrar</h2>
     <form id="form-login">
@@ -175,19 +143,21 @@
     </form>
   </div>
 
-  <!-- Página 2 após login -->
   <div class="container hidden" id="pagina2">
     <h2>Bem-vindo, <span id="usuario-nome"></span>!</h2>
-    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Robozinho piscando" class="robozinho" />
     <p style="font-size: 1.2em; color: #00ff88; font-weight: bold;">
       ⚽ Bem-vindo ao nosso mundo de palpites esportivos! Prepare-se para análises quentes e dicas certeiras!
     </p>
     <button onclick="mostrarMensagem()">Saiba mais</button>
     <div id="msg-info" class="hidden"></div>
     <button onclick="irParaPagina3()" style="margin-top: 10px;">Ver Análises</button>
+
+    <div id="jogos-ao-vivo">
+      <h3>Jogos ao vivo</h3>
+      <div id="lista-jogos">Carregando jogos ao vivo...</div>
+    </div>
   </div>
 
-  <!-- Página 3 com análises -->
   <div class="container hidden" id="pagina3">
     <h2>Acerto 93%</h2>
     <div style="margin: 20px 0;">
@@ -208,163 +178,170 @@
     </div>
   </div>
 
-  <!-- Container para jogos ao vivo -->
-  <div class="container" id="jogos-ao-vivo">
-    <h2>Jogos ao Vivo</h2>
-    <ul id="lista-jogos"></ul>
-  </div>
-
-  <footer>
+  <footer style="text-align:center; padding:20px; color:#666;">
     &copy; 2025 El Diacho de Tips. Todos os direitos reservados.
   </footer>
 
-<script>
-  // Cadastro
-  function salvarUsuario(usuario) {
-    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-    usuarios.push(usuario);
-    localStorage.setItem('usuarios', JSON.stringify(usuarios));
-  }
-  function usuarioExiste(nome) {
-    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-    return usuarios.some(u => u.nome.toLowerCase() === nome.toLowerCase());
-  }
-  function validarLogin(nome, senha) {
-    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-    return usuarios.find(u => u.nome.toLowerCase() === nome.toLowerCase() && u.senha === senha);
-  }
-
-  document.getElementById('form-cadastro').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const nome = document.getElementById('nome').value.trim();
-    const senha = document.getElementById('senha').value.trim();
-    const data = document.getElementById('data').value;
-    const maior18 = document.querySelector('input[name="maior18"]:checked');
-    const msg = document.getElementById('msg-cadastro');
-    msg.textContent = '';
-    msg.className = 'message';
-
-    if (!nome || !senha || !data || !maior18) {
-      msg.textContent = 'Preencha todos os campos.';
-      msg.classList.add('error');
-      return;
+  <script>
+    // Cadastro e login - localStorage simples
+    function salvarUsuario(usuario) {
+      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+      usuarios.push(usuario);
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
     }
-    if (maior18.value !== 'sim') {
-      msg.textContent = 'Você precisa ser maior de 18 anos para se cadastrar.';
-      msg.classList.add('error');
-      return;
-    }
-    if (usuarioExiste(nome)) {
-      msg.textContent = 'Este nome já está cadastrado.';
-      msg.classList.add('error');
-      return;
-    }
-    salvarUsuario({ nome, senha, data, maior18: maior18.value });
-    msg.textContent = 'Cadastro realizado com sucesso! Você já pode entrar.';
-    msg.classList.add('success');
-    this.reset();
-  });
 
-  // Login
-  document.getElementById('form-login').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const nome = document.getElementById('login-nome').value.trim();
-    const senha = document.getElementById('login-senha').value.trim();
-    const msg = document.getElementById('msg-login');
-    msg.textContent = '';
-    msg.className = 'message';
-
-    const usuario = validarLogin(nome, senha);
-    if (usuario) {
-      document.getElementById('usuario-nome').textContent = usuario.nome;
-      document.getElementById('cadastro').classList.add('hidden');
-      document.getElementById('login').classList.add('hidden');
-      document.getElementById('pagina2').classList.remove('hidden');
-    } else {
-      msg.textContent = 'Usuário ou senha incorretos.';
-      msg.classList.add('error');
+    function usuarioExiste(nome) {
+      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+      return usuarios.some(u => u.nome.toLowerCase() === nome.toLowerCase());
     }
-  });
 
-  function irParaPagina3() {
-    document.getElementById('pagina2').classList.add('hidden');
-    document.getElementById('pagina3').classList.remove('hidden');
-  }
-  function voltarParaInicio() {
-    document.getElementById('pagina2').classList.add('hidden');
-    document.getElementById('pagina3').classList.add('hidden');
-    document.getElementById('cadastro').classList.remove('hidden');
-    document.getElementById('login').classList.remove('hidden');
-    window.scrollTo(0, 0);
-  }
-  function mostrarMensagem() {
-    const msgInfo = document.getElementById('msg-info');
-    if (msgInfo.classList.contains('hidden')) {
-      msgInfo.innerHTML = `
-        <p>Olá, tudo bem? Eu estou ótima! Fui criada para ajudar você a acertar os seus palpites.</p>
-        <p>Aqui somos três inteligências artificiais trabalhando para seu melhor lucro — vamos nos chamar de <b>Chute Milionário</b>.</p>
-        <p>Trabalho 24 horas analisando jogos anteriores.</p>
-        <p>Até agora acertei 3 jogos ao vivo e 2 palpites!</p>
-        <p>Infelizmente, 5 bilhetes com 7 jogos bateram na trave, <b>mas só deu um red</b>.</p>
-        <p>A cada dia busco mais vitórias.</p>
-      `;
-      msgInfo.classList.remove('hidden');
-    } else {
+    function validarLogin(nome, senha) {
+      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+      return usuarios.find(u => u.nome.toLowerCase() === nome.toLowerCase() && u.senha === senha);
+    }
+
+    document.getElementById('form-cadastro').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value.trim();
+      const senha = document.getElementById('senha').value.trim();
+      const data = document.getElementById('data').value;
+      const maior18 = document.querySelector('input[name="maior18"]:checked');
+
+      const msg = document.getElementById('msg-cadastro');
+      msg.textContent = '';
+      msg.className = 'message';
+
+      if (!nome || !senha || !data || !maior18) {
+        msg.textContent = 'Preencha todos os campos.';
+        msg.classList.add('error');
+        return;
+      }
+
+      if (maior18.value !== 'sim') {
+        msg.textContent = 'Você precisa ser maior de 18 anos para se cadastrar.';
+        msg.classList.add('error');
+        return;
+      }
+
+      if (usuarioExiste(nome)) {
+        msg.textContent = 'Este nome já está cadastrado.';
+        msg.classList.add('error');
+        return;
+      }
+
+      salvarUsuario({ nome, senha, data, maior18: maior18.value });
+      msg.textContent = 'Cadastro realizado com sucesso! Você já pode entrar.';
+      msg.classList.add('success');
+      this.reset();
+    });
+
+    document.getElementById('form-login').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nome = document.getElementById('login-nome').value.trim();
+      const senha = document.getElementById('login-senha').value.trim();
+      const msg = document.getElementById('msg-login');
+      msg.textContent = '';
+      msg.className = 'message';
+
+      const usuario = validarLogin(nome, senha);
+      if (usuario) {
+        document.getElementById('usuario-nome').textContent = usuario.nome;
+        document.getElementById('cadastro').classList.add('hidden');
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('pagina2').classList.remove('hidden');
+        buscarJogosAoVivo();
+        setInterval(buscarJogosAoVivo, 60000);
+      } else {
+        msg.textContent = 'Usuário ou senha incorretos.';
+        msg.classList.add('error');
+      }
+    });
+
+    function mostrarMensagem() {
+      const msgInfo = document.getElementById('msg-info');
+      if (msgInfo.classList.contains('hidden')) {
+        msgInfo.innerHTML = `
+          <p>Olá, tudo bem? Eu estou ótima! Fui criada para ajudar você a acertar os seus palpites.</p>
+          <p>Aqui somos três inteligências artificiais trabalhando para seu melhor lucro — vamos nos chamar de <b>Chute Milionário</b>.</p>
+          <p>Trabalho 24 horas analisando jogos anteriores.</p>
+          <p>Até agora acertei 3 jogos ao vivo e 2 palpites!</p>
+          <p>Infelizmente, 5 bilhetes com 7 jogos bateram na trave, <b>mas só deu um red</b>.</p>
+          <p>A cada dia busco mais vitórias.</p>
+          <p>Mais uma vez, <b>bem-vindo à família</b> e boa sorte!</p>
+          <button onclick="fecharMensagem()" style="margin-top: 10px; width: 100%;">Sair</button>
+        `;
+        msgInfo.classList.remove('hidden');
+      }
+    }
+
+    function fecharMensagem() {
+      const msgInfo = document.getElementById('msg-info');
       msgInfo.classList.add('hidden');
       msgInfo.innerHTML = '';
     }
-  }
 
-  // ==== Código para buscar jogos ao vivo da API ====
+    function irParaPagina3() {
+      document.getElementById('pagina2').classList.add('hidden');
+      document.getElementById('pagina3').classList.remove('hidden');
+    }
 
-  const API_KEY = 'COLOQUE_SUA_API_KEY_AQUI'; // <- Coloque sua API key aqui
-  const API_URL = 'https://api-football-v1.p.rapidapi.com/v3/fixtures?live=all';
+    function voltarParaInicio() {
+      document.getElementById('pagina2').classList.add('hidden');
+      document.getElementById('pagina3').classList.add('hidden');
+      document.getElementById('cadastro').classList.remove('hidden');
+      document.getElementById('login').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
 
-  async function buscarJogosAoVivo() {
-    try {
-      const resposta = await fetch(API_URL, {
-        method: 'GET',
-        headers: {
-          'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
-          'x-rapidapi-key': API_KEY
+    // Busca jogos ao vivo da API-Football
+    async function buscarJogosAoVivo() {
+      const listaJogos = document.getElementById('lista-jogos');
+      listaJogos.textContent = 'Carregando jogos ao vivo...';
+
+      try {
+        const response = await fetch('https://v3.football.api-sports.io/fixtures?live=all', {
+          method: 'GET',
+          headers: {
+            'x-apisports-key': 'SUA_API_KEY_AQUI'
+          }
+        });
+
+        if (!response.ok) throw new Error('Erro na requisição da API');
+
+        const data = await response.json();
+
+        if (!data.response || data.response.length === 0) {
+          listaJogos.textContent = 'Nenhum jogo ao vivo no momento.';
+          return;
         }
-      });
-      if (!resposta.ok) {
-        throw new Error('Erro ao buscar jogos');
+
+        listaJogos.innerHTML = '';
+
+        data.response.forEach(jogo => {
+          const timeCasa = jogo.teams.home.name;
+          const timeFora = jogo.teams.away.name;
+          const placarCasa = jogo.goals.home !== null ? jogo.goals.home : '-';
+          const placarFora = jogo.goals.away !== null ? jogo.goals.away : '-';
+          const status = jogo.fixture.status.long;
+
+          const totalGols = (jogo.goals.home ?? 0) + (jogo.goals.away ?? 0);
+          // Exemplo simples de palpite
+          const palpite = totalGols < 2.5 ? "Palpite: Menos de 2.5 gols" : "Palpite: Mais de 2.5 gols";
+
+          const divJogo = document.createElement('div');
+          divJogo.className = 'jogo';
+          divJogo.innerHTML = `
+            <strong>${timeCasa} ${placarCasa} x ${placarFora} ${timeFora}</strong><br/>
+            Status: ${status}<br/>
+            <span class="palpite">${palpite}</span>
+          `;
+          listaJogos.appendChild(divJogo);
+        });
+      } catch (error) {
+        listaJogos.textContent = 'Erro ao carregar jogos ao vivo.';
+        console.error(error);
       }
-      const dados = await resposta.json();
-      mostrarJogos(dados.response);
-    } catch (erro) {
-      console.error('Erro na API:', erro);
-      document.getElementById('lista-jogos').innerHTML = '<li>Não foi possível carregar os jogos ao vivo.</li>';
     }
-  }
-
-  function mostrarJogos(jogos) {
-    const lista = document.getElementById('lista-jogos');
-    lista.innerHTML = '';
-
-    if (!jogos || jogos.length === 0) {
-      lista.innerHTML = '<li>Nenhum jogo ao vivo no momento.</li>';
-      return;
-    }
-
-    jogos.forEach(jogo => {
-      const timeCasa = jogo.teams.home.name;
-      const timeFora = jogo.teams.away.name;
-      const golsCasa = jogo.goals.home;
-      const golsFora = jogo.goals.away;
-      const status = jogo.fixture.status.short;
-
-      const li = document.createElement('li');
-      li.textContent = `${timeCasa} ${golsCasa} x ${golsFora} ${timeFora} - ${status}`;
-      lista.appendChild(li);
-    });
-  }
-
-  // Atualiza a lista a cada 60 segundos
-  buscarJogosAoVivo();
-  setInterval(buscarJogosAoVivo, 60000);
-</script>
+  </script>
 </body>
 </html>
