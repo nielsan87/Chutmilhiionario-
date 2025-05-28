@@ -1,84 +1,162 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Teste Login Simples</title>
+  <meta charset="UTF-8">
+  <title>El Diacho de Tips</title>
   <style>
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      background: black;
-      color: red;
+    body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      display: flex; justify-content: center; align-items: center;
+      background-color: #0d0d1a;
+      color: #ffffff;
     }
-    #mainScreen, #welcome {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      width: 100vw;
+
+    header {
+      background-color: #111;
+      padding: 20px;
       text-align: center;
+      border-bottom: 2px solid #00ffff;
     }
-    #mainScreen.active, #welcome.active {
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+      color: #00ffff;
+    }
+
+    .imagem-topo {
+      display: block;
+      margin: 30px auto 10px;
+      width: 300px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #00ffff33;
+    }
+
+    nav {
       display: flex;
+      justify-content: center;
+      gap: 40px;
+      background-color: #1a1a2e;
+      padding: 10px 0;
     }
-    input, button {
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid red;
-      background: black;
-      color: red;
-      width: 200px;
-    }
-    button {
-      cursor: pointer;
-      background: red;
-      color: black;
+
+    nav a {
+      color: #00ffff;
+      text-decoration: none;
       font-weight: bold;
     }
-    button:hover {
-      background: darkred;
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #1f1f2e;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ffff33;
+    }
+
+    .container h2 {
+      color: #00ffff;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 8px;
+      background-color: #333;
+      color: white;
+    }
+
+    .checkbox {
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #00ffff;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      padding: 20px;
+      background-color: #111;
+      border-top: 1px solid #00ffff;
+      font-size: 0.9em;
+      color: #888;
     }
   </style>
 </head>
 <body>
 
-<div id="mainScreen" class="active">
-  <h2>Login Simples</h2>
-  <input type="text" id="user" placeholder="Usuário" />
-  <input type="password" id="pass" placeholder="Senha" />
-  <button onclick="login()">Entrar</button>
-</div>
+  <header>
+    <h1>El Diacho de Tips</h1>
+  </header>
 
-<div id="welcome">
-  <h1>Bem-vindo(a)!</h1>
-  <button onclick="logout()">Sair</button>
-</div>
+  <img src="cerebro-digital.jpg" alt="Imagem Futurista de Rosto com Circuitos" class="imagem-topo">
 
-<script>
-  function login() {
-    const user = document.getElementById('user').value.trim();
-    const pass = document.getElementById('pass').value.trim();
+  <nav>
+    <a href="#cadastro">Cadastro</a>
+    <a href="#login">Entrar</a>
+  </nav>
 
-    // Só para teste, aceita usuário 'teste' e senha '123'
-    if (user === 'teste' && pass === '123') {
-      document.getElementById('mainScreen').classList.remove('active');
-      document.getElementById('welcome').classList.add('active');
-    } else {
-      alert('Usuário ou senha incorretos.');
-    }
-  }
+  <div class="container" id="cadastro">
+    <h2>Cadastro</h2>
+    <form>
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" name="nome" placeholder="Digite seu nome">
 
-  function logout() {
-    document.getElementById('welcome').classList.remove('active');
-    document.getElementById('mainScreen').classList.add('active');
-    document.getElementById('user').value = '';
-    document.getElementById('pass').value = '';
-  }
-</script>
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" name="senha" placeholder="Digite uma senha">
+
+      <label for="data">Data de nascimento</label>
+      <input type="date" id="data" name="data">
+
+      <div class="checkbox">
+        <label>Você é maior de 18 anos?</label>
+        <input type="radio" name="maior18" value="sim"> Sim
+        <input type="radio" name="maior18" value="nao"> Não
+      </div>
+
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+
+  <div class="container" id="login">
+    <h2>Entrar</h2>
+    <form>
+      <label for="login-nome">Nome de usuário</label>
+      <input type="text" id="login-nome" name="login-nome" placeholder="Seu nome de usuário">
+
+      <label for="login-senha">Senha</label>
+      <input type="password" id="login-senha" name="login-senha" placeholder="Sua senha">
+
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+
+  <footer>
+    &copy; 2025 El Diacho de Tips. Todos os direitos reservados.
+  </footer>
 
 </body>
 </html>
