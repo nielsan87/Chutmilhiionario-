@@ -16,26 +16,10 @@
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #00ffff;
-      position: relative;
     }
     header h1 {
       margin: 0;
       color: #00ffff;
-    }
-    /* Robô animado no header */
-    #robo {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 50px;
-      height: 50px;
-      background: url('https://i.imgur.com/ojgZCPE.gif') no-repeat center center;
-      background-size: contain;
-      animation: robo-bounce 2s infinite ease-in-out;
-    }
-    @keyframes robo-bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
     }
     nav {
       display: flex;
@@ -60,7 +44,6 @@
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 0 20px #00ffff33;
-      position: relative;
     }
     .container h2 {
       color: #00ffff;
@@ -119,26 +102,11 @@
     .success {
       color: #44ff44;
     }
-    /* Estilo das bolinhas maior de 18 anos */
-    .radio-group {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 10px;
-    }
-    .radio-group label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      user-select: none;
-      font-weight: normal;
-    }
   </style>
 </head>
 <body>
   <header>
     <h1>El Diacho de Tips</h1>
-    <div id="robo" title="Robô animado"></div>
   </header>
 
   <nav>
@@ -155,10 +123,9 @@
       <input type="password" id="senha" required />
       <label for="data">Data de nascimento</label>
       <input type="date" id="data" required />
-      <div class="radio-group">
-        <label><input type="radio" name="maior18" value="sim" required /> Sim</label>
-        <label><input type="radio" name="maior18" value="nao" /> Não</label>
-      </div>
+      <label>Você é maior de 18 anos?</label>
+      <input type="radio" name="maior18" value="sim" required /> Sim
+      <input type="radio" name="maior18" value="nao" /> Não
       <button type="submit">Cadastrar</button>
       <div class="message" id="msg-cadastro"></div>
     </form>
@@ -216,7 +183,7 @@
   </footer>
 
   <script>
-    // Funções para cadastro e login
+    // Cadastro e login - localStorage simples
     function salvarUsuario(usuario) {
       let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
       usuarios.push(usuario);
@@ -317,3 +284,64 @@
       document.getElementById('pagina2').classList.add('hidden');
       document.getElementById('pagina3').classList.remove('hidden');
     }
+
+    function voltarParaInicio() {
+      document.getElementById('pagina2').classList.add('hidden');
+      document.getElementById('pagina3').classList.add('hidden');
+      document.getElementById('cadastro').classList.remove('hidden');
+      document.getElementById('login').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    // Busca jogos ao vivo da API-Football
+    async function buscarJogosAoVivo() {
+      const listaJogos = document.getElementById('lista-jogos');
+      listaJogos.textContent = 'Carregando jogos ao vivo...';
+
+      try {
+        const response = await fetch('https://v3.football.api-sports.io/fixtures?live=all', {
+          method: 'GET',
+          headers: {
+            'x-apisports-key': 'SUA_API_KEY_AQUI'
+          }
+        });
+
+        if (!response.ok) throw new Error('Erro na requisição da API');
+
+        const data = await response.json();
+
+        if (!data.response || data.response.length === 0) {
+          listaJogos.textContent = 'Nenhum jogo ao vivo no momento.';
+          return;
+        }
+
+        listaJogos.innerHTML = '';
+
+        data.response.forEach(jogo => {
+          const timeCasa = jogo.teams.home.name;
+          const timeFora = jogo.teams.away.name;
+          const placarCasa = jogo.goals.home !== null ? jogo.goals.home : '-';
+          const placarFora = jogo.goals.away !== null ? jogo.goals.away : '-';
+          const status = jogo.fixture.status.long;
+
+          const totalGols = (jogo.goals.home ?? 0) + (jogo.goals.away ?? 0);
+          // Exemplo simples de palpite
+          const palpite = totalGols < 2.5 ? "Palpite: Menos de 2.5 gols" : "Palpite: Mais de 2.5 gols";
+
+          const divJogo = document.createElement('div');
+          divJogo.className = 'jogo';
+          divJogo.innerHTML = `
+            <strong>${timeCasa} ${placarCasa} x ${placarFora} ${timeFora}</strong><br/>
+            Status: ${status}<br/>
+            <span class="palpite">${palpite}</span>
+          `;
+          listaJogos.appendChild(divJogo);
+        });
+      } catch (error) {
+        listaJogos.textContent = 'Erro ao carregar jogos ao vivo.';
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
